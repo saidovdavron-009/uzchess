@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { BaseModel } from '../../../core/module/base-model';
+import { BaseModel } from '../../../core/base-model';
 import { User } from '../../auth/entities/users.entity';
 import { Course } from './course.entity';
 
@@ -11,12 +11,9 @@ export class CourseLike extends BaseModel {
   @Column()
   courseId! : number
 
-  @Column({ type: 'timestamp' })
-  date!: Date;
-
   @ManyToOne(() => User)
   user!: User;
 
-  @ManyToOne(() => Course)
+  @ManyToOne(() => Course,(course) => course.likes)
   course!: Course;
 }

@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import { BaseModel } from '../../../core/module/base-model';
+import { BaseModel } from '../../../core/base-model';
 import { CourseLesson } from './courseLesson.entity';
 import { Course } from './course.entity';
 

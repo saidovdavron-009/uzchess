@@ -9,7 +9,6 @@ import { CourseLessonUpdateAdminDto } from '../../dtos/courseLessons/admin/cours
 export class CourseLessonAdminService{
   async create(payload : CourseLessonCreateAdminDto,video : Express.Multer.File){
     const courseLesson = CourseLesson.create(payload)
-    courseLesson.createdAt = new Date().toISOString()
     if(video){
       courseLesson.video= video.path
     }

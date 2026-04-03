@@ -2,6 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 export class CourseListAdminDto{
+
+  @Expose()
+  @ApiProperty()
+  id! : number
+
   @Expose()
   @ApiProperty()
   authorId! : number
@@ -49,4 +54,8 @@ export class CourseListAdminDto{
   @Expose()
   @ApiProperty()
   lessonsCount!: number
+
+  @Expose()
+  @ApiProperty()
+  isLike!: boolean
 }

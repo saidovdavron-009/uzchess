@@ -1,6 +1,5 @@
 import { Entity, Column, OneToMany} from 'typeorm';
-// import { Course } from './courses.entity';
-import { BaseModel } from '../../../core/module/base-model';
+import { BaseModel } from '../../../core/base-model';
 import { Course } from './course.entity';
 
 @Entity('coursecategories')

@@ -23,10 +23,6 @@ export class CourseSectionAdminService{
 
   async create(payload : CourseSectionCreateAdminDto){
     const courseSection = CourseSection.create(payload);
-    if(!courseSection){
-      throw new NotFoundException('courseSection with given id not found')
-    }
-
     await CourseSection.save(courseSection)
     return courseSection
   }

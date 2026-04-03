@@ -49,4 +49,8 @@ export class CourseListPublicDto{
   @Expose()
   @ApiProperty()
   lessonsCount!: number
+
+  @Expose()
+  @ApiProperty()
+  isLike : boolean
 }

@@ -9,7 +9,6 @@ import { PurchasedCoursesUpdateAdminDto } from '../../dtos/puchasedCourse/admin/
 export class PurchasedCourseAdminService{
   async create(payload : PurchasedCourseCreateAdminDto){
     const purchasedCourse = PurchasedCourse.create(payload)
-    purchasedCourse.createdAt = new Date().toISOString()
     await PurchasedCourse.save(purchasedCourse)
     return purchasedCourse
   }

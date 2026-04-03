@@ -4,7 +4,7 @@ import { CourseCategoryPublicService } from './services/courseCategory/courseCat
 import { CourseCategoryAdminController } from './controllers/courseCategory/courseCategory.admin.controller';
 import { CourseCategoryPublicController } from './controllers/courseCategory/courseCategory.public.controller';
 import { CoursePublicService } from './services/courses/course.public.service';
-import { CourseAdminService } from './services/courses/course.admin.service';
+import CourseAdminService from './services/courses/course.admin.service';
 import { CourseAdminController } from './controllers/courses/course.admin.controller';
 import { CoursePublicController } from './controllers/courses/course.public.controller';
 import { CourseSectionAdminService } from './services/courseSection/courseSection.admin.service';
@@ -19,14 +19,12 @@ import { PurchasedCourseAdminService } from './services/purchasedCourse/purchase
 import { PurchasedCoursePublicService } from './services/purchasedCourse/purchasedCourse.public.service';
 import { PurchasedCourseAdminController } from './controllers/purchasedCourse/purchasedCourse.admin.controller';
 import { PurchasedCoursePublicController } from './controllers/purchasedCourse/purchasedCourse.public.controller';
-import { CourseLikeAdminService } from './services/courseLikes/courseLikes.admin.service';
-import { CourseLikesPublicService } from './services/courseLikes/courseLikes.public.service';
-import { CourseLikesPublicController } from './controllers/courseLikes/courseLikes.public.controller';
-import { CourseLikesAdminController } from './controllers/courseLikes/courseLikes.admin.controller';
 import { CourseReviewAdminService } from './services/courseReviews/courseReviews.admin.service';
 import { CourseReviewPublicService } from './services/courseReviews/courseReviews.public.service';
 import { CourseReviewAdminController } from './controllers/courseReviews/courseReviews.admin.controller';
 import { CourseReviewPublicController } from './controllers/courseReviews/courseReviews.public.controller';
+import { CourseLikePublicService } from './services/courseLike/courseLike.public.service';
+import { CourseLikePublicController } from './controllers/courseLikes/courseLike.public.controller';
 
 @Module({
   providers : [
@@ -40,10 +38,9 @@ import { CourseReviewPublicController } from './controllers/courseReviews/course
     CourseLessonPublicService,
     PurchasedCourseAdminService,
     PurchasedCoursePublicService,
-    CourseLikeAdminService,
-    CourseLikesPublicService,
     CourseReviewAdminService,
-    CourseReviewPublicService
+    CourseReviewPublicService,
+    CourseLikePublicService
   ],
   controllers : [
     CourseCategoryAdminController,
@@ -56,10 +53,9 @@ import { CourseReviewPublicController } from './controllers/courseReviews/course
     CourseLessonPublicController,
     PurchasedCourseAdminController,
     PurchasedCoursePublicController,
-    CourseLikesAdminController,
-    CourseLikesPublicController,
     CourseReviewAdminController,
-    CourseReviewPublicController
+    CourseReviewPublicController,
+    CourseLikePublicController
   ]
 })
 

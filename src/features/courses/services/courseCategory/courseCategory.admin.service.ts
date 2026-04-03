@@ -11,7 +11,6 @@ import { CourseCategoryUpdateAdminDto } from '../../dtos/courseCategories/admin/
 export class CourseCategoryAdminService{
   async create(payload : CourseCategoryCreateAdminDto){
     const courseCategory = CourseCategory.create(payload as CourseCategory)
-    courseCategory.createdAt = new Date().toISOString()
     await CourseCategory.save(courseCategory)
     return courseCategory
   }

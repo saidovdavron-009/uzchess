@@ -1,11 +1,11 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import { BaseModel } from '../../../core/module/base-model';
-import { Author } from '../../auth/entities/author.entity';
+import { BaseModel } from '../../../core/base-model';
 import { CourseCategory } from './courseCategory.entity';
 import { Language } from '../../common/entities/language.entity';
 import { CourseSection } from './courseSection.entity';
 import { Difficulty } from '../../common/entities/difficulty.entity';
-// import { CourseSectionEntity } from './courseSection';
+import { Author } from '../../common/entities/author.entity';
+import { CourseLike } from './courseLikes.entity';
 
 @Entity('courses')
 export class Course extends BaseModel {
@@ -53,6 +53,9 @@ export class Course extends BaseModel {
 
   @ManyToOne(() => Language)
   language!: Language;
+
+  @OneToMany(() => CourseLike, (like) => like.course)
+  likes? :CourseLike[]
 
   @ManyToOne(() => Difficulty)
   difficulty!: Difficulty;

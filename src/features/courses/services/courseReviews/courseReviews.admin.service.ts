@@ -23,7 +23,6 @@ export class CourseReviewAdminService {
 
   async create(payload: CourseReviewsCreateAdminDto) {
     const item = CourseReview.create(payload);
-    item.createdAt = new Date().toISOString();
     await CourseReview.save(item);
     return item;
   }
