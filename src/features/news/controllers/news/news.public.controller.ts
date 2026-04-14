@@ -1,19 +1,27 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query, Req, UseFilters } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { NewsPublicService } from '../../services/news/news.public.service';
-import { NewsListPublicDto } from '../../dtos/news/public/news.list.public.dto';
 import { NewsDetailPublicDto } from '../../dtos/news/public/news.detail.public.dto';
+import { GlobalFilters } from '../../../../core/filters/global.filters';
+import type{Request} from 'express';
+import { NewsFilter } from '../../filters/news.filter';
+import { NewsPaginatedResultDto } from '../../news.paginated-result.dto';
+import { getFullPath } from '../../../../core/utils/pathHelper';
 
 @Controller('public/news')
+@UseFilters(GlobalFilters)
 export class NewsPublicController {
 
   constructor(private service : NewsPublicService) {
   }
 
   @Get()
-  @ApiOkResponse({type : () => NewsListPublicDto, isArray : true})
-  async getAll()  {
-    return await this.service.getAll()
+  @ApiOkResponse({type : () => NewsPaginatedResultDto, isArray : true})
+  async getAll(@Req() req: Request, @Query() filters : NewsFilter)  {
+    const result = await this.service.getAll(filters)
+    // @ts-ignore
+    result.data.forEach((item) => (item.image = getFullPath(req,item.image)))
+    return result
   }
 
   @Get(':id')

@@ -3,6 +3,8 @@ import { Role, LoginType } from '../../../core/enum/enum';
 import { BaseModel } from '../../../core/base-model';
 import { OtpCode } from './otpCodes.entity'
 import { Report } from '../../reports/entity/report.entity';
+import { SouvenirReviews } from '../../cart/entities/souvenirReviews.entity';
+import { SouvenirLikes } from '../../cart/entities/souvenir.likes.entity';
 
 @Entity('users')
 export class User extends BaseModel {
@@ -38,7 +40,12 @@ export class User extends BaseModel {
 
   @OneToMany(() => Report, (report) => report.users)
   reports? : Report[]
-
   @OneToMany(() => OtpCode, (otp) => otp.user)
   otpCodes!: OtpCode[];
+
+  @OneToMany(() => SouvenirReviews,(souvenirReview) => souvenirReview.user)
+  souvenirReview! : SouvenirReviews[]
+
+  @OneToMany(() => SouvenirLikes,(souvenirLikes) => souvenirLikes.user)
+  souvenirLikes! : SouvenirLikes[]
 }

@@ -8,9 +8,9 @@ import { BookDetailAdminDto } from '../../dtos/book/admin/book.detail.admin.dto'
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
 import type {Request} from 'express';
-import AuthenticationGuard from '../../../../core/guard/authentication.guard';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enum/enum';
+import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 
 @Controller('admin/book')
 @UseGuards(AuthenticationGuard)

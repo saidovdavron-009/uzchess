@@ -31,3 +31,26 @@ export enum ReportType {
   BOOK = 'book',
   COURSE = 'course'
 }
+
+export enum FriendShipStatusType {
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  DECLINED = 'declined',
+  BLOCKED = 'blocked',
+}
+
+export enum OrderItemType {
+  BOOK = 'book',
+  SUVINER = 'suviner',
+}
+
+export enum OrderStatusType {
+  PENDING = 'pending',
+  DELIVERED = 'delivered',
+  CANCELLED = 'cancelled',
+}
+
+export enum CartItemType {
+  BOOK = 'book',
+  SOUVENIR = 'souvenir',
+}

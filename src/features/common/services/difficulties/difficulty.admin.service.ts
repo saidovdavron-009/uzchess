@@ -4,9 +4,14 @@ import { DifficultyCreateAdminDto } from '../../dtos/difficulties/admin/difficul
 import { plainToInstance } from 'class-transformer';
 import { DifficultyListAdminDto } from '../../dtos/difficulties/admin/difficulty.list.admin.dto';
 import { DifficultyUpdateAdminDto } from '../../dtos/difficulties/admin/difficulty.update.admin.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class DifficultyAdminService{
+
+  constructor(private readonly joi : ConfigService) {
+  }
+
   async create(payload : DifficultyCreateAdminDto,icon: Express.Multer.File){
     const difficult = Difficulty.create(payload as Difficulty);
     difficult.icon = icon.path
@@ -16,6 +21,9 @@ export class DifficultyAdminService{
 
   async getAll(){
     const difficult = await Difficulty.find()
+    for (let difficulty of difficult){
+      difficulty.icon = this.joi.getOrThrow<string>('BASE_URL') + '/' + difficulty.icon
+    }
     return plainToInstance(DifficultyListAdminDto,difficult,{excludeExtraneousValues:true})
   }
 

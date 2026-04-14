@@ -1,8 +1,8 @@
 import { Controller, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CourseLikePublicService } from '../../services/courseLike/courseLike.public.service';
-import AuthenticationGuard from '../../../../core/guard/authentication.guard';
 import type { Request } from 'express';
+import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 
 @ApiTags('CourseLike - Public')
 @ApiBearerAuth()

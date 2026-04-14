@@ -1,41 +1,48 @@
-import {CanActivate, ExecutionContext, Injectable, UnauthorizedException} from "@nestjs/common";
-import {JwtService} from "@nestjs/jwt";
-import {Reflector} from "@nestjs/core";
-import {Request} from "express";
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RolesKey } from '../decorators/roles.decorator';
+import { JwtService } from '@nestjs/jwt';
+import { Reflector } from '@nestjs/core';
+import {Request} from 'express';
 
 @Injectable()
-class AuthenticationGuard implements CanActivate{
+  export class AuthenticationGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
     private readonly reflector: Reflector
   ) {}
 
-  canActivate(context: ExecutionContext){
-    let roles = this.reflector.getAllAndOverride(RolesKey, [context.getHandler(), context.getClass()])
-    if (!roles) {
-      return true
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request: Request = context.switchToHttp().getRequest();
+
+    const authHeader = request.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedException("Token topilmadi");
     }
 
-    let request: Request = context.switchToHttp().getRequest()
-    if (!request.headers.authorization) {
-      throw new UnauthorizedException("Unauthorized")
-    }
-
-    let [bearer, token] = request.headers.authorization.split(' ')
-
-    if (!token || !bearer || bearer.toLocaleLowerCase() !== 'bearer'){
-      throw new UnauthorizedException("Unauthorized")
+    const [bearer, token] = authHeader.split(' ');
+    if (bearer?.toLowerCase() !== 'bearer' || !token) {
+      throw new UnauthorizedException("Noto'g'ri formatdagi token");
     }
 
     try {
-      //@ts-ignore
-      request.user = this.jwtService.verify(token)
-      return true;
-    }catch (exc){
-      throw new UnauthorizedException("Unauthorized")
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: process.env.SECRET_KEY
+      });
+      request['user'] = payload;
+    } catch {
+      throw new UnauthorizedException("Token yaroqsiz");
     }
+
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>(RolesKey, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (!requiredRoles) {
+      return true;
+    }
+
+    const user = request['user'];
+    return requiredRoles.includes(user.role);
   }
 }
-
-export default AuthenticationGuard;

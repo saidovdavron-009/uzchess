@@ -1,10 +1,10 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Controller, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
-import AuthenticationGuard from '../../../../core/guard/authentication.guard';
 import { BookLikesPublicService } from '../../services/bookLikes/bookLikes.public.service';
 import type {Request} from 'express';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enum/enum';
+import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 
 @ApiTags('BookLike - Public')
 @ApiBearerAuth()

@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Patch, ParseIntPipe, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Patch,
+  ParseIntPipe,
+  UseInterceptors,
+  UploadedFile,
+  Query,
+  UseFilters,
+} from '@nestjs/common';
 import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 import { NewsAdminService } from '../../services/news/news.admin.service';
 import { NewsListAdminDto } from '../../dtos/news/admin/news.list.admin.dto';
@@ -7,8 +20,11 @@ import { NewsCreateAdminDto } from '../../dtos/news/admin/news.create.admin.dto'
 import { NewsUpdateAdminDto } from '../../dtos/news/admin/news.update.admin.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
+import { NewsFilter } from '../../filters/news.filter';
+import { GlobalFilters } from '../../../../core/filters/global.filters';
 
 @Controller('admin/news')
+@UseFilters(GlobalFilters)
 export class NewsAdminController {
 
   constructor(private service : NewsAdminService) {
@@ -16,7 +32,7 @@ export class NewsAdminController {
 
   @Get()
   @ApiOkResponse({type : () => NewsListAdminDto, isArray : true})
-  async getAll()  {
+  async getAll(@Query() filters : NewsFilter)  {
     return await this.service.getAll()
   }
 

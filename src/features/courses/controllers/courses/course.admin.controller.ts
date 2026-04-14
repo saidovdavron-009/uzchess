@@ -21,7 +21,7 @@ import { CourseUpdateAdminDto } from '../../dtos/courses/admin/course.update.adm
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
 import type { Request } from 'express';
-import AuthenticationGuard from '../../../../core/guard/authentication.guard';
+import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 
 @Controller('admin/courses')
 @UseGuards(AuthenticationGuard)

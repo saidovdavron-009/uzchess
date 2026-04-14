@@ -2,13 +2,13 @@ import { Body, Controller, Param, ParseIntPipe, Post, Req, UseGuards } from '@ne
 import { ReportPublicService } from '../../service/report/report.public.service';
 import { ReportCreatePublicDto } from '../../dto/report/admin/report.list.public.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import authenticationGuard from '../../../../core/guard/authentication.guard';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enum/enum';
+import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 
 @ApiTags('Report-Public')
 @Controller('public/report')
-@UseGuards(authenticationGuard)
+@UseGuards(AuthenticationGuard)
 @ApiBearerAuth()
 @Roles(Role.USER)
 export class ReportPublicController{
