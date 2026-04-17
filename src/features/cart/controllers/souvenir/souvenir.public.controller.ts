@@ -6,11 +6,11 @@ import {
   SouvenirImageDetailPublicDto,
 } from '../../dtos/souvenirs/public/souvenir.detail.public.dto';
 import { SouvenirListPublicDto, SouvenirImagePublicDto } from '../../dtos/souvenirs/public/souvenir.list.public.dto';
-import { SouvenirPaginatedResultDto } from '../../souvenir.paginated-result.dto';
-import { SouvenirFilter } from '../../filters/souvenir.filter';
 import { GlobalFilters } from '../../../../core/filters/global.filters';
 import { getFullPath } from '../../../../core/utils/pathHelper';
 import type { Request } from 'express';
+import { PaginationResult } from '../../../common/dtos/pagination-result';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @ApiTags('Souvenir - Public')
 @Controller('public/souvenir')
@@ -19,8 +19,8 @@ export class SouvenirPublicController {
   constructor(private readonly service: SouvenirPublicService) {}
 
   @Get()
-  @ApiOkResponse({ type: () => SouvenirPaginatedResultDto })
-  async getAll(@Req() req: Request, @Query() filters: SouvenirFilter) {
+  @ApiOkResponse({ type: () => PaginationResult })
+  async getAll(@Req() req: Request, @Query() filters: PaginationFilters) {
     const result = await this.service.getAll(filters);
     result.data.forEach((item: SouvenirListPublicDto) => {
       item.souvenirImage?.forEach((img: SouvenirImagePublicDto) => {

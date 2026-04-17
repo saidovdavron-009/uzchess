@@ -2,7 +2,7 @@ import { IsInt, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
-export class NewsFilter{
+export class PaginationFilters {
   @IsString()
   @IsOptional()
   @ApiProperty({required : false})

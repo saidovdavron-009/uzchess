@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 
-// Services
 import { SouvenirPublicService } from './services/souvenir.public.service';
 import { SouvenirAdminService } from './services/souvenir.admin.service';
 import { ColorsAdminService } from './services/colors.admin.service';
@@ -11,7 +10,6 @@ import { SouvenirLikesPublicService } from './services/souvenirLikes.public.serv
 import { SouvenirReviewsPublicService } from './services/souvenirReviews.public.service';
 import { CartItemPublicService } from './services/cartItem.public.service';
 
-// Controllers
 import { SouvenirPublicController } from './controllers/souvenir/souvenir.public.controller';
 import { SouvenirAdminController } from './controllers/souvenir/souvenir.admin.controller';
 import { ColorsAdminController } from './controllers/colors/colors.admin.controller';

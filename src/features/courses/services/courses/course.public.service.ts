@@ -1,29 +1,29 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
 import { Course } from '../../entities/course.entity';
-import { CourseListPublicDto } from '../../dtos/courses/public/course.list.public.dto';
-import { CourseFilter } from '../../filters/course.filter';
-import { FindOptionsWhere, ILike } from 'typeorm';
-import { CoursePaginatedResultDto } from '../../course.paginated-result.dto';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
+import { PaginatedResult } from '../../../common/dtos/pagination-result';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CoursePublicService{
-  async getAll(filters : CourseFilter){
-    let whereOptions: FindOptionsWhere<Course> = {}
-    const take = filters.size ?? Number(process.env.DEFAULT_SIZE)
-    const currentPages = filters.page ?? Number(process.env.DEFAULT_PAGE)
-    const skip = (currentPages - 1) * take
 
-    if(filters.search){
-      whereOptions.title = ILike(`%${filters.search}%`)
-    }
+  constructor(private readonly config : ConfigService) {
+  }
 
-    const totalCount = await Course.countBy(whereOptions)
-    const totalPages = Math.ceil(totalCount / take)
-    const nextPage = currentPages < totalPages ? currentPages + 1 : null
-    const course = await Course.find({where: whereOptions,skip: skip,take: take})
-    const data = plainToInstance(CourseListPublicDto,course, { excludeExtraneousValues : true})
-    return {totalPages,currentPages,nextPage,totalCount,data} as CoursePaginatedResultDto
+  async getAll(filters: PaginationFilters) {
+    const take = filters.size ?? this.config.getOrThrow<number>('DEFAULT_SIZE');
+    const currentPage = filters.page ?? this.config.getOrThrow<number>('DEFAULT_PAGE');
+    const skip = (currentPage - 1) * take;
+
+    const totalCount = await Course.count();
+    const totalPages = Math.ceil(totalCount / take);
+
+    const previousPage = currentPage > 1 ? currentPage - 1 : null;
+    const nextPage = currentPage < totalPages ? currentPage + 1 : null;
+    const data = await Course.find({ skip: skip, take: take });
+
+    return { totalCount, totalPages, previousPage, currentPage, nextPage, data } as PaginatedResult;
+
   }
   
   async getOne(id : number){

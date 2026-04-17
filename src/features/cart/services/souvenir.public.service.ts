@@ -1,40 +1,30 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Souvenir } from '../entities/souvenir.entity';
 import { plainToInstance } from 'class-transformer';
-import { SouvenirListPublicDto } from '../dtos/souvenirs/public/souvenir.list.public.dto';
 import { SouvenirDetailPublicDto } from '../dtos/souvenirs/public/souvenir.detail.public.dto';
-import { SouvenirFilter } from '../filters/souvenir.filter';
-import { FindOptionsWhere, ILike } from 'typeorm';
-import { SouvenirPaginatedResultDto } from '../souvenir.paginated-result.dto';
+import { PaginationFilters } from '../../common/filters/pagination.filter';
+import { PaginatedResult } from '../../common/dtos/pagination-result';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SouvenirPublicService {
-  async getAll(filters: SouvenirFilter): Promise<SouvenirPaginatedResultDto> {
-    const whereOptions: FindOptionsWhere<Souvenir> = {};
-    const take = filters.size ?? Number(process.env.DEFAULT_SIZE);
-    const currentPage = filters.page ?? Number(process.env.DEFAULT_PAGE);
+
+  constructor(private readonly config : ConfigService) {
+  }
+
+  async getAll(filters: PaginationFilters) {
+    const take = filters.size ?? this.config.getOrThrow<number>('DEFAULT_SIZE');
+    const currentPage = filters.page ?? this.config.getOrThrow<number>('DEFAULT_PAGE');
     const skip = (currentPage - 1) * take;
 
-    if (filters.search) {
-      whereOptions.title = ILike(`%${filters.search}%`);
-    }
-
-    const totalCount = await Souvenir.countBy(whereOptions);
+    const totalCount = await Souvenir.count();
     const totalPages = Math.ceil(totalCount / take);
+
+    const previousPage = currentPage > 1 ? currentPage - 1 : null;
     const nextPage = currentPage < totalPages ? currentPage + 1 : null;
+    const data = await Souvenir.find({ skip: skip, take: take });
 
-    const souvenirs = await Souvenir.find({
-      where: whereOptions,
-      skip,
-      take,
-      relations: ['souvenirImage'],
-    });
-
-    const data = plainToInstance(SouvenirListPublicDto, souvenirs, {
-      excludeExtraneousValues: true,
-    });
-
-    return { totalPages, currentPage, nextPage, totalCount, data } as SouvenirPaginatedResultDto;
+    return { totalCount, totalPages, previousPage, currentPage, nextPage, data } as PaginatedResult;
   }
 
   async getOne(id: number) {

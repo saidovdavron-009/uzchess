@@ -5,8 +5,8 @@ import { CourseListPublicDto } from '../../dtos/courses/public/course.list.publi
 import { CourseDetailPublicDto } from '../../dtos/courses/public/course.detail.public.dto';
 import { GlobalFilters } from '../../../../core/filters/global.filters';
 import type {Request} from 'express';
-import { CourseFilter } from '../../filters/course.filter';
 import { getFullPath } from '../../../../core/utils/pathHelper';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('public/courses')
 @UseFilters(GlobalFilters)
@@ -17,7 +17,7 @@ export class CoursePublicController{
 
   @Get()
   @ApiOkResponse({type : () => CourseListPublicDto,isArray:true})
-  async getAll(@Req()req : Request,@Query()filters : CourseFilter){
+  async getAll(@Req()req : Request,@Query()filters : PaginationFilters){
     const result =  await this.service.getAll(filters)
     result.data.forEach((item) => (item.image = getFullPath(req,item.image)))
     return result

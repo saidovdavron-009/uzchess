@@ -20,8 +20,8 @@ import { NewsCreateAdminDto } from '../../dtos/news/admin/news.create.admin.dto'
 import { NewsUpdateAdminDto } from '../../dtos/news/admin/news.update.admin.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
-import { NewsFilter } from '../../filters/news.filter';
 import { GlobalFilters } from '../../../../core/filters/global.filters';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('admin/news')
 @UseFilters(GlobalFilters)
@@ -32,7 +32,7 @@ export class NewsAdminController {
 
   @Get()
   @ApiOkResponse({type : () => NewsListAdminDto, isArray : true})
-  async getAll(@Query() filters : NewsFilter)  {
+  async getAll(@Query() filters : PaginationFilters)  {
     return await this.service.getAll()
   }
 
