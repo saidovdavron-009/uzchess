@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { SouvenirAdminService } from '../../services/souvenir.admin.service';
+import { SouvenirAdminService } from '../../services/souvenir/souvenir.admin.service';
 import { SouvenirCreateAdminDto } from '../../dtos/souvenirs/admin/souvenir.create.admin.dto';
 import { SouvenirUpdateAdminDto } from '../../dtos/souvenirs/admin/souvenir.update.admin.dto';
 import { SouvenirListAdminDto } from '../../dtos/souvenirs/admin/souvenir.list.admin.dto';
@@ -9,6 +9,7 @@ import { GlobalFilters } from '../../../../core/filters/global.filters';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enum/enum';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @ApiTags('Souvenir - Admin')
 @ApiBearerAuth()
@@ -26,8 +27,8 @@ export class SouvenirAdminController {
 
   @Get()
   @ApiOkResponse({ type: () => SouvenirListAdminDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll();
+  async getAll(@Query()filters:PaginationFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')

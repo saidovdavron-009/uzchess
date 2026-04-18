@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CartItemPublicService } from '../../services/cartItem.public.service';
+import { CartItemPublicService } from '../../services/cart-item/cartItem.public.service';
 import { CartItemCreatePublicDto } from '../../dtos/cartItems/public/cartItem.create.public.dto';
 import { CartItemUpdatePublicDto } from '../../dtos/cartItems/public/cartItem.update.public.dto';
 import { CartItemListPublicDto } from '../../dtos/cartItems/public/cartItem.list.public.dto';

@@ -1,6 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe, Query, Req, UseFilters } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { SouvenirPublicService } from '../../services/souvenir.public.service';
+import { SouvenirPublicService } from '../../services/souvenir/souvenir.public.service';
 import {
   SouvenirDetailPublicDto,
   SouvenirImageDetailPublicDto,

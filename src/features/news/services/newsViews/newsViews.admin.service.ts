@@ -4,11 +4,12 @@ import { NewsView } from '../../entities/newsViews.entity';
 import { plainToInstance } from 'class-transformer';
 import { NewsViewsUpdateAdminDto } from '../../dtos/newsViews/admin/newsViews.update.admin.dto';
 import { NewsViewsListAdminDto } from '../../dtos/newsViews/admin/newsViews.list.admin.dto';
-import { NewsViewsAdminRepository } from '../../repository/newsViews/newsViews.admin.repository';
+import { NewsViewsRepository } from '../../repository/newsViews/newsViews.repository';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Injectable()
 export class NewsViewsAdminService{
-  constructor(private readonly repo: NewsViewsAdminRepository) {}
+  constructor(private readonly repo: NewsViewsRepository) {}
 
   async create(payload : NewsViewsCreateAdminDto){
     const newsViews = NewsView.create(payload)
@@ -16,8 +17,8 @@ export class NewsViewsAdminService{
     return newsViews
   }
 
-  async getAll(){
-    const newsViews = await this.repo.getAll()
+  async getAll(filters : PaginationFilters){
+    const newsViews = await this.repo.getAll(filters)
     return plainToInstance(NewsViewsListAdminDto,newsViews,{excludeExtraneousValues : true})
   }
 

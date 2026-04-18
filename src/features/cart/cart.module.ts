@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 
-import { SouvenirPublicService } from './services/souvenir.public.service';
-import { SouvenirAdminService } from './services/souvenir.admin.service';
-import { ColorsAdminService } from './services/colors.admin.service';
-import { ColorsPublicService } from './services/colors.public.service';
-import { SouvenirImagesAdminService } from './services/souvenirImages.admin.service';
-import { SouvenirColorsAdminService } from './services/souvenirColors.admin.service';
-import { SouvenirLikesPublicService } from './services/souvenirLikes.public.service';
-import { SouvenirReviewsPublicService } from './services/souvenirReviews.public.service';
-import { CartItemPublicService } from './services/cartItem.public.service';
+import { SouvenirPublicService } from './services/souvenir/souvenir.public.service';
+import { SouvenirAdminService } from './services/souvenir/souvenir.admin.service';
+import { ColorsAdminService } from './services/color/colors.admin.service';
+import { ColorsPublicService } from './services/color/colors.public.service';
+import { SouvenirImagesAdminService } from './services/souvenir-image/souvenirImages.admin.service';
+import { SouvenirColorsAdminService } from './services/souvenir-color/souvenirColors.admin.service';
+import { SouvenirLikesPublicService } from './services/souvenir-likes/souvenirLikes.public.service';
+import { SouvenirReviewsPublicService } from './services/souvenir-reviews/souvenirReviews.public.service';
+import { CartItemPublicService } from './services/cart-item/cartItem.public.service';
 
 import { SouvenirPublicController } from './controllers/souvenir/souvenir.public.controller';
 import { SouvenirAdminController } from './controllers/souvenir/souvenir.admin.controller';
@@ -19,8 +19,24 @@ import { SouvenirColorsAdminController } from './controllers/souvenirColors/souv
 import { SouvenirLikesPublicController } from './controllers/souvenirLikes/souvenirLikes.public.controller';
 import { SouvenirReviewsPublicController } from './controllers/souvenirReviews/souvenirReviews.public.controller';
 import { CartItemPublicController } from './controllers/cartItems/cartItem.public.controller';
+import { CartItemRepository } from './repository/cart-item.repository';
+import { ColorsRepository } from './repository/colors.repository';
+import { SouvenirRepository } from './repository/souvenir.repository';
+import { SouvenirColorRepository } from './repository/souvenir-color.repository';
+import { SouvenirImageRepository } from './repository/souvenir-image.repository';
+import { SouvenirLikesRepository } from './repository/souvenir-likes.repository';
+import { SouvenirReviewsRepository } from './repository/souvenir-reviews.repository';
 
 @Module({
+  imports : [
+    CartItemRepository,
+    ColorsRepository,
+    SouvenirRepository,
+    SouvenirColorRepository,
+    SouvenirImageRepository,
+    SouvenirLikesRepository,
+    SouvenirReviewsRepository
+  ],
   providers: [
     SouvenirPublicService,
     SouvenirAdminService,

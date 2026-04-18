@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { SouvenirImagesAdminService } from '../../services/souvenirImages.admin.service';
+import { SouvenirImagesAdminService } from '../../services/souvenir-image/souvenirImages.admin.service';
 import { storageOptions } from '../../../../config/multer.config';
 import { GlobalFilters } from '../../../../core/filters/global.filters';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';

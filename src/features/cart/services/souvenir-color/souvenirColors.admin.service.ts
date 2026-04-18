@@ -1,11 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SouvenirColor } from '../entities/souvenirColor.entity';
-import { Souvenir } from '../entities/souvenir.entity';
-import { Colors } from '../entities/colors.entity';
-import { SouvenirColorsCreateAdminDto } from '../dtos/souvenirColors/admin/souvenirColors.create.admin.dto';
+import { SouvenirColor } from '../../entities/souvenirColor.entity';
+import { Souvenir } from '../../entities/souvenir.entity';
+import { Colors } from '../../entities/colors.entity';
+import { SouvenirColorsCreateAdminDto } from '../../dtos/souvenirColors/admin/souvenirColors.create.admin.dto';
+import { SouvenirColorRepository } from '../../repository/souvenir-color.repository';
 
 @Injectable()
 export class SouvenirColorsAdminService {
+
+  constructor(private readonly repo : SouvenirColorRepository) {
+  }
   async addColor(payload: SouvenirColorsCreateAdminDto) {
     const souvenir = await Souvenir.findOneBy({ id: payload.souvenirId });
     if (!souvenir) {
@@ -28,10 +32,10 @@ export class SouvenirColorsAdminService {
   }
 
   async removeColor(id: number) {
-    const souvenirColor = await SouvenirColor.findOneBy({ id });
+    const souvenirColor = await this.repo.getOneById(id)
     if (!souvenirColor) {
       throw new NotFoundException('SouvenirColor with given id not found');
     }
-    await SouvenirColor.remove(souvenirColor);
+    await this.repo.delete(souvenirColor)
   }
 }

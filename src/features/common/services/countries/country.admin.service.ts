@@ -4,9 +4,13 @@ import { Country } from '../../entities/country.entity';
 import { plainToInstance } from 'class-transformer';
 import { CountryListAdminDto } from '../../dtos/countries/admin/country.list.admin.dto';
 import { CountryUpdateAdminDto } from '../../dtos/countries/admin/country.update.admin.dto';
+import { CountryRepository } from '../../repository/country.repository';
 
 @Injectable()
 export class CountryAdminService{
+  constructor(private readonly repo:CountryRepository) {
+  }
+
   async create(payload : CountryCreateAdminDto,icon : Express.Multer.File){
     const country = Country.create(payload as Country);
     await Country.save(country);
@@ -19,7 +23,7 @@ export class CountryAdminService{
   }
 
   async getOne(id : number){
-    const country = await Country.findOneBy({ id });
+    const country = await this.repo.getOneById(id)
 
     if (!country) {
       throw new NotFoundException('Country with given id not found');
@@ -29,7 +33,7 @@ export class CountryAdminService{
   }
 
   async update(id : number,payload : CountryUpdateAdminDto,icon? :Express.Multer.File){
-    const country = await Country.findOneBy({ id });
+    const country = await this.repo.getOneById(id)
 
     if (!country) {
       throw new NotFoundException('Country with given id not found');
@@ -40,17 +44,17 @@ export class CountryAdminService{
         Object.entries(payload).filter(([key, value]) => value)
       )
     )
-    await Country.save(country);4
+    await this.repo.save(country)
     return country;
   }
 
   async delete(id : number){
-    const country = await Country.findOneBy({ id });
+    const country = await this.repo.getOneById(id)
 
     if (!country) {
       throw new NotFoundException('Country with given id not found');
     }
 
-    await Country.remove(country);
+    await this.repo.delete(country)
   }
 }

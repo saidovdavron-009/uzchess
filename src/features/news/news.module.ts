@@ -7,17 +7,17 @@ import { NewsViewsAdminService } from './services/newsViews/newsViews.admin.serv
 import { NewsViewsPublicService } from './services/newsViews/newsViews.public.service';
 import { NewsViewsAdminController } from './controllers/newsViews/newsViews.admin.controller';
 import { NewsViewsPublicController } from './controllers/newsViews/newsViews.public.controller';
-import { NewsAdminRepository } from './repository/news/news.admin.repository';
-import { NewsViewsAdminRepository } from './repository/newsViews/newsViews.admin.repository';
+import { NewsRepository } from './repository/news/news.repository';
 
 @Module({
+  imports : [
+    NewsRepository
+  ],
   providers : [
     NewsAdminService,
     NewsPublicService,
-    NewsAdminRepository,
     NewsViewsAdminService,
     NewsViewsPublicService,
-    NewsViewsAdminRepository,
   ],
   controllers: [
     NewsAdminController,

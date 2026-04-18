@@ -19,7 +19,6 @@ export class NewsPublicController {
   @ApiOkResponse({type : () => PaginationResult, isArray : true})
   async getAll(@Req() req: Request, @Query() filters : PaginationFilters)  {
     const result = await this.service.getAll(filters)
-    // @ts-ignore
     result.data.forEach((item) => (item.image = getFullPath(req,item.image)))
     return result
   }

@@ -6,9 +6,14 @@ import { BookReview } from '../../../library/entities/bookReviews.entity';
 import { CourseReview } from '../../../courses/entities/courseReviews.entity';
 import { ReportType } from '../../../../core/enum/enum';
 import { Report } from '../../entity/report.entity';
+import { ReportRepository } from '../../repositories/report.repository';
 
 @Injectable()
 export class ReportPublicService {
+
+  constructor(private readonly repo : ReportRepository) {
+  }
+
   async create(userId: number, payload: ReportCreatePublicDto) {
     const user = await User.findOneBy({ id: userId });
     if (!user) {

@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { SouvenirReviewsPublicService } from '../../services/souvenirReviews.public.service';
+import { SouvenirReviewsPublicService } from '../../services/souvenir-reviews/souvenirReviews.public.service';
 import { SouvenirReviewsCreatePublicDto } from '../../dtos/souvenirReviews/public/souvenirReviews.create.public.dto';
 import { SouvenirReviewsListPublicDto } from '../../dtos/souvenirReviews/public/souvenirReviews.list.public.dto';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';

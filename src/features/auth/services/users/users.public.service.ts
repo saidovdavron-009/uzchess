@@ -17,6 +17,7 @@ export class UsersPublicService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly otpService: OtpCodePublicService,
+    private readonly repo: User
   ) {
   }
 

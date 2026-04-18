@@ -33,7 +33,7 @@ export class NewsAdminController {
   @Get()
   @ApiOkResponse({type : () => NewsListAdminDto, isArray : true})
   async getAll(@Query() filters : PaginationFilters)  {
-    return await this.service.getAll()
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

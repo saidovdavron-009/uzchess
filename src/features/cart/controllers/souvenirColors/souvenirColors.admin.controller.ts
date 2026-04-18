@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SouvenirColorsAdminService } from '../../services/souvenirColors.admin.service';
+import { SouvenirColorsAdminService } from '../../services/souvenir-color/souvenirColors.admin.service';
 import { SouvenirColorsCreateAdminDto } from '../../dtos/souvenirColors/admin/souvenirColors.create.admin.dto';
 import { GlobalFilters } from '../../../../core/filters/global.filters';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';

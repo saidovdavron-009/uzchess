@@ -4,16 +4,18 @@ import { NewsListAdminDto } from '../../dtos/news/admin/news.list.admin.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { NewsCreateAdminDto } from '../../dtos/news/admin/news.create.admin.dto';
 import { NewsUpdateAdminDto } from '../../dtos/news/admin/news.update.admin.dto';
-import { NewsAdminRepository } from '../../repository/news/news.admin.repository';
+import { NewsRepository } from '../../repository/news/news.repository';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Injectable()
 export class NewsAdminService{
-  constructor(private readonly repo: NewsAdminRepository) {
+  constructor(private readonly repo: NewsRepository) {
   }
 
-  async getAll(){
-    const news = await this.repo.getAll()
-    return plainToInstance(NewsListAdminDto,news, {excludeExtraneousValues: true})
+  async getAll(filters : PaginationFilters){
+    const news = await this.repo.getAll(filters)
+    news.data =  plainToInstance(NewsListAdminDto,news.data, {excludeExtraneousValues: true})
+    return news
   }
 
   async getOne(id : number){

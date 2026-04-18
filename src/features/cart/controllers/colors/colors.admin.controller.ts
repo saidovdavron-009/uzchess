@@ -6,12 +6,12 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post,
+  Post, Query,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { ColorsAdminService } from '../../services/colors.admin.service';
+import { ColorsAdminService } from '../../services/color/colors.admin.service';
 import { ColorsCreateAdminDto } from '../../dtos/colors/admin/colors.create.admin.dto';
 import { ColorsUpdateAdminDto } from '../../dtos/colors/admin/colors.update.admin.dto';
 import { ColorsListAdminDto } from '../../dtos/colors/admin/colors.list.admin.dto';
@@ -19,6 +19,7 @@ import { GlobalFilters } from '../../../../core/filters/global.filters';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enum/enum';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @ApiTags('Colors - Admin')
 @ApiBearerAuth()
@@ -36,8 +37,8 @@ export class ColorsAdminController {
 
   @Get()
   @ApiOkResponse({ type: () => ColorsListAdminDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll();
+  async getAll(@Query()filters : PaginationFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')

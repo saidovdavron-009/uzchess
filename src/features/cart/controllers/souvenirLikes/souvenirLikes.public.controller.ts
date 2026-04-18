@@ -1,6 +1,6 @@
 import { Controller, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { SouvenirLikesPublicService } from '../../services/souvenirLikes.public.service';
+import { SouvenirLikesPublicService } from '../../services/souvenir-likes/souvenirLikes.public.service';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
 import { Roles } from '../../../../core/decorators/roles.decorator';
 import { Role } from '../../../../core/enum/enum';

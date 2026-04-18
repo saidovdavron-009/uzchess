@@ -2,9 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '../../entities/users.entity';
 import { OtpType } from '../../../../core/enum/enum';
 import { OtpCode } from '../../entities/otpCodes.entity';
+import { OtpCodeRepository } from '../../repositories/otp.repository';
 
 @Injectable()
 export class OtpCodePublicService {
+
+  constructor(private readonly repo: OtpCodeRepository) {
+  }
   async sendOtp(user: User, type: OtpType) {
     await this.deleteOtps(user.id);
 

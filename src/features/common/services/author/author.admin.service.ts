@@ -4,22 +4,26 @@ import { AuthorCreateAdminDto } from '../../dtos/author/admin/author.create.admi
 import { plainToInstance } from 'class-transformer';
 import { AuthorListAdminDto } from '../../dtos/author/admin/author.list.admin.dto';
 import { AuthorUpdateAdminDto } from '../../dtos/author/admin/author.update.admin.dto';
+import { AuthorRepository } from '../../repository/author.repository';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Injectable()
 export class AuthorAdminService{
+  constructor(private readonly repo:AuthorRepository) {
+  }
   async create(payload : AuthorCreateAdminDto){
-    const author = Author.create(payload as Author)
-    await Author.save(author)
+    const author = {...payload} as Author
+    return await this.repo.save(author)
+  }
+
+  async getAll(filters:PaginationFilters){
+    const author = await this.repo.getAll(filters)
+    author.data = plainToInstance(AuthorListAdminDto,author.data,{excludeExtraneousValues:true})
     return author
   }
 
-  async getAll(){
-    const author = await Author.find()
-    return plainToInstance(AuthorListAdminDto,author,{excludeExtraneousValues:true})
-  }
-
   async getOne(id : number){
-    const author = await Author.findOneBy({ id })
+    const author = await this.repo.getOneById(id)
     if(!author){
       throw new NotFoundException('Author with given id not found')
     }
@@ -28,7 +32,7 @@ export class AuthorAdminService{
   }
 
   async update(id : number,payload : AuthorUpdateAdminDto){
-   const author = await Author.findOneBy({ id })
+   const author = await this.repo.getOneById(id)
     if(!author){
       throw new NotFoundException('author with given id not found')
     }
@@ -38,16 +42,16 @@ export class AuthorAdminService{
         Object.entries(payload).filter(([key,value]) => value)
       )
     )
-    await Author.save(author)
+    await this.repo.save(author)
     return author
   }
 
   async delete(id : number){
-    const author = await Author.findOneBy({ id })
+    const author = await this.repo.getOneById(id)
     if(!author){
       throw new NotFoundException('News with given id not found')
     }
 
-    await Author.remove(author)
+    await this.repo.delete(author)
   }
 }

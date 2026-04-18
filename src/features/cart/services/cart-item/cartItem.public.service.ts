@@ -1,12 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CartItem } from '../entities/cartItem.entity';
+import { CartItem } from '../../entities/cartItem.entity';
 import { plainToInstance } from 'class-transformer';
-import { CartItemCreatePublicDto } from '../dtos/cartItems/public/cartItem.create.public.dto';
-import { CartItemUpdatePublicDto } from '../dtos/cartItems/public/cartItem.update.public.dto';
-import { CartItemListPublicDto } from '../dtos/cartItems/public/cartItem.list.public.dto';
+import { CartItemCreatePublicDto } from '../../dtos/cartItems/public/cartItem.create.public.dto';
+import { CartItemUpdatePublicDto } from '../../dtos/cartItems/public/cartItem.update.public.dto';
+import { CartItemListPublicDto } from '../../dtos/cartItems/public/cartItem.list.public.dto';
+import { CartItemRepository } from '../../repository/cart-item.repository';
 
 @Injectable()
 export class CartItemPublicService {
+  constructor(private readonly repo: CartItemRepository) {
+  }
+
   async addToCart(payload: CartItemCreatePublicDto, userId: number) {
     const existing = await CartItem.findOneBy({
       userId,

@@ -4,9 +4,14 @@ import { Book } from '../../entities/book.entity';
 import { plainToInstance } from 'class-transformer';
 import { BookListAdminDto } from '../../dtos/book/admin/book.list.admin.dto';
 import { BookUpdateAdminDto } from '../../dtos/book/admin/book.update.admin.dto';
+import { NewsRepository } from '../../../news/repository/news/news.repository';
 
 @Injectable()
 export class BookAdminService{
+
+  constructor(private readonly repo: NewsRepository) {
+  }
+
   async create(payload : BookCreateAdminDto,image : Express.Multer.File){
     const book = Book.create(payload)
     if(image){
