@@ -15,7 +15,7 @@ export class ReportPublicService {
   }
 
   async create(userId: number, payload: ReportCreatePublicDto) {
-    const user = await User.findOneBy({ id: userId });
+    const user = await this.repo.getOneById(userId)
     if (!user) {
       throw new NotFoundException('User does not exist anymore');
     }

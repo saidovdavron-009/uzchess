@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DifficultyAdminService } from '../../services/difficulties/difficulty.admin.service';
 import { DifficultyCreateAdminDto } from '../../dtos/difficulties/admin/difficulty.create.admin.dto';
 import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
@@ -6,6 +6,7 @@ import { DifficultyListAdminDto } from '../../dtos/difficulties/admin/difficulty
 import { DifficultyUpdateAdminDto } from '../../dtos/difficulties/admin/difficulty.update.admin.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('admin/difficulty')
 export class DifficultyAdminController{
@@ -25,8 +26,8 @@ export class DifficultyAdminController{
 
   @Get()
   @ApiOkResponse({type : () => DifficultyListAdminDto,isArray:true})
-  async getAll(){
-    return await this.service.getAll()
+async getAll(@Query() filters:PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

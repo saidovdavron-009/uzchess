@@ -5,6 +5,7 @@ import { UserListAdminDto } from '../../dtos/users/admin/users.list.admin.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UsersUpdateAdminDto } from '../../dtos/users/admin/users.update.admin.dto';
 import { UserRepository } from '../../repositories/user.repository';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 export class UsersAdminService{
   constructor(private readonly repo: UserRepository) {
@@ -21,12 +22,12 @@ export class UsersAdminService{
     if(profileImage){
       users.profileImage = profileImage.path
     }
-    await User.save(users)
+    await this.repo.save(users)
     return users
   }
 
-  async getAll(){
-    const users = await User.find()
+  async getAll(filters:PaginationFilters){
+    const users = await this.repo.getAll(filters)
     return plainToInstance(UserListAdminDto,users,{excludeExtraneousValues : true})
   }
 

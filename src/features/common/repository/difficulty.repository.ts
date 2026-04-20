@@ -6,7 +6,7 @@ import { BaseRepository } from '../../../core/repositories/base-repository';
 import { Difficulty } from '../entities/difficulty.entity';
 
 @Injectable()
-export class CourseLikeRepository extends BaseRepository<Difficulty>{
+export class DifficultyRepository extends BaseRepository<Difficulty>{
   constructor(
     protected readonly config: ConfigService,
     @InjectRepository(Difficulty)
