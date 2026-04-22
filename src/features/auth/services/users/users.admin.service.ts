@@ -11,28 +11,29 @@ export class UsersAdminService{
   constructor(private readonly repo: UserRepository) {
   }
 
-  async create(payload : UserCreateAdminDto,profileImage : Express.Multer.File){
-    const existingUser = await User.findOne({where: {login : payload.login}})
+  async create(payload : UserCreateAdminDto,profileImage? : Express.Multer.File){
+    const existingUser = await this.repo.getOneBYLogin(payload.login);
 
     if(existingUser){
       throw new ConflictException('Bu login allaqachon mavjut')
     }
 
-    const users = User.create(payload)
+    const user = payload as User
     if(profileImage){
-      users.profileImage = profileImage.path
+      user.profileImage = profileImage.path
     }
-    await this.repo.save(users)
-    return users
+    await this.repo.save(user)
+    return user
   }
 
   async getAll(filters:PaginationFilters){
     const users = await this.repo.getAll(filters)
-    return plainToInstance(UserListAdminDto,users,{excludeExtraneousValues : true})
+    users.data = plainToInstance(UserListAdminDto,users.data,{excludeExtraneousValues : true})
+    return users
   }
 
   async getOne(id : number){
-    const users = await User.findOneBy({ id })
+    const users = await this.repo.getOneById(id)
     if(!users){
       throw new NotFoundException('Users with given id not found')
     }
@@ -40,13 +41,13 @@ export class UsersAdminService{
   }
 
   async update(id : number,payload : UsersUpdateAdminDto,profileImage : Express.Multer.File){
-    const users = await User.findOneBy({ id })
+    const users = await this.repo.getOneById(id)
     if(!users){
       throw new NotFoundException('Users with given id not found')
     }
 
     if(payload.login){
-      const existingUser = await User.findOne({where : {login : payload.login}})
+      const existingUser = await this.repo.getOneBYLogin(payload.login)
 
       if(existingUser && existingUser.id !== id){
         throw new ConflictException('Bu login allaqachon band')
@@ -64,16 +65,16 @@ export class UsersAdminService{
       users.profileImage = profileImage.path
     }
 
-    await User.save(users)
+    await this.repo.save(users)
     return users
   }
 
   async delete(id : number){
-    const users = await User.findOneBy({ id })
+    const users = await this.repo.getOneById(id)
     if(!users){
       throw new NotFoundException('Users with given id not found')
     }
 
-    await User.remove(users)
+    await this.repo.delete(users)
   }
 }

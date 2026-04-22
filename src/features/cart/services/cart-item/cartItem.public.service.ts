@@ -12,15 +12,11 @@ export class CartItemPublicService {
   }
 
   async addToCart(payload: CartItemCreatePublicDto, userId: number) {
-    const existing = await CartItem.findOneBy({
-      userId,
-      target: payload.target,
-      targetId: payload.targetId,
-    });
+    const existing = await this.repo.getOneByAdd(userId,payload.target,payload.targetId)
 
     if (existing) {
       existing.quantity += payload.quantity ?? 1;
-      await CartItem.save(existing);
+      await this.repo.save(existing)
       return existing;
     }
 
@@ -29,30 +25,30 @@ export class CartItemPublicService {
       userId,
       quantity: payload.quantity ?? 1,
     } as CartItem);
-    await CartItem.save(cartItem);
+    await this.repo.save(cartItem)
     return cartItem;
   }
 
   async getCart(userId: number) {
-    const items = await CartItem.findBy({ userId });
-    return plainToInstance(CartItemListPublicDto, items, { excludeExtraneousValues: true });
+    const items = await this.repo.getOneById(userId)
+    plainToInstance(CartItemListPublicDto, items, { excludeExtraneousValues: true });
   }
 
   async updateQuantity(id: number, userId: number, payload: CartItemUpdatePublicDto) {
-    const item = await CartItem.findOneBy({ id, userId });
+    const item = await this.repo.getOneByUserId(id,userId)
     if (!item) {
       throw new NotFoundException('Cart item with given id not found');
     }
     item.quantity = payload.quantity;
-    await CartItem.save(item);
+    await this.repo.save(item)
     return item;
   }
 
   async removeFromCart(id: number, userId: number) {
-    const item = await CartItem.findOneBy({ id, userId });
+    const item = await this.repo.getOneByUserId(id,userId)
     if (!item) {
       throw new NotFoundException('Cart item with given id not found');
     }
-    await CartItem.remove(item);
+    await this.repo.delete(item)
   }
 }

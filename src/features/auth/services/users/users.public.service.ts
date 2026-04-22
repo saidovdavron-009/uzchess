@@ -11,18 +11,19 @@ import { SetPasswordDto } from '../../dtos/users/public/set-password.dto';
 import { OtpCode } from '../../entities/otpCodes.entity';
 import { ResendOtpDto } from '../../dtos/users/public/resend-otp.dto';
 import argon2 from 'argon2'
+import { UserRepository } from '../../repositories/user.repository';
 
 @Injectable()
 export class UsersPublicService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly otpService: OtpCodePublicService,
-    private readonly repo: User
+    private readonly repo: UserRepository
   ) {
   }
 
   async signUp(payload: SignUpDto) {
-    let user = await User.findOneBy({ login: ILike(payload.login) });
+    let user = await this.repo.getOneBYLogin(payload.login)
 
     if (user && user.isActive && user.isVerified) {
       throw new BadRequestException('User with given login already exists');
@@ -32,14 +33,14 @@ export class UsersPublicService {
     if (user) {
       user.fullName = payload.fullName;
     } else {
-      user = User.create(payload as User);
+      user = payload as User
     }
-    await User.save(user);
+    await this.repo.save(user)
     await this.otpService.sendOtp(user, OtpType.REGISTER);
   }
 
   async signIn({ login, password }: SignInDto) {
-    let user = await User.findOneBy({ login: ILike(login) });
+    let user = await this.repo.getOneBYLogin(login)
     if (!user || !user.password) {
       throw new UnauthorizedException();
     }
@@ -65,7 +66,7 @@ export class UsersPublicService {
   }
 
   async verifyOtp({ login, code }: VerifyOtpDto) {
-    let user = await User.findOneBy({ login: ILike(login) });
+    let user = await this.repo.getOneBYLogin(login)
     if (!user) {
       throw new BadRequestException('User with given login does not exist');
     }
@@ -76,16 +77,16 @@ export class UsersPublicService {
     }
 
     user.isVerified = true;
-    await User.save(user);
+    await this.repo.save(user)
   }
 
   async setPassword(payload: SetPasswordDto) {
-    let user = await User.findOneBy({ login: ILike(payload.login) });
+    let user = await this.repo.getOneBYLogin(payload.login)
     if (!user) {
       throw new NotFoundException('Does not exist');
     }
 
-    let otpCode = await OtpCode.findOneBy({ userId: user.id, code: payload.code, type: OtpType.REGISTER });
+    let otpCode = await this.repo.getOneByUser(payload)
     if (!otpCode) {
       throw new BadRequestException('Code is wrong');
     }
@@ -93,11 +94,11 @@ export class UsersPublicService {
     user.password = await argon2.hash(payload.password);
     user.isActive = true;
 
-    await User.save(user);
+    await this.repo.save(user);
   }
 
-  async resendOtp({ login, loginType }: ResendOtpDto) {
-    let user = await User.findOneBy({ login: ILike(login), loginType });
+  async resendOtp({ login }: ResendOtpDto) {
+    let user = await this.repo.getOneBYLogin(login)
     if (!user) {
       throw new NotFoundException('User with given login and loginType does not exist');
     }

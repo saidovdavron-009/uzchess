@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SouvenirPublicService } from './services/souvenir/souvenir.public.service';
 import { SouvenirAdminService } from './services/souvenir/souvenir.admin.service';
@@ -26,27 +27,35 @@ import { SouvenirColorRepository } from './repository/souvenir-color.repository'
 import { SouvenirImageRepository } from './repository/souvenir-image.repository';
 import { SouvenirLikesRepository } from './repository/souvenir-likes.repository';
 import { SouvenirReviewsRepository } from './repository/souvenir-reviews.repository';
+import { Souvenir } from './entities/souvenir.entity';
+import { Colors } from './entities/colors.entity';
+import { SouvenirColor } from './entities/souvenirColor.entity';
+import { SouvenirImages } from './entities/souvenirImages.entity';
+import { SouvenirLikes } from './entities/souvenir.likes.entity';
+import { SouvenirReviews } from './entities/souvenirReviews.entity';
+import { CartItem } from './entities/cartItem.entity';
 
 @Module({
   imports : [
-    CartItemRepository,
-    ColorsRepository,
-    SouvenirRepository,
-    SouvenirColorRepository,
-    SouvenirImageRepository,
-    SouvenirLikesRepository,
-    SouvenirReviewsRepository
+    TypeOrmModule.forFeature([Souvenir, Colors, SouvenirColor, SouvenirImages, SouvenirLikes, SouvenirReviews, CartItem])
   ],
   providers: [
     SouvenirPublicService,
     SouvenirAdminService,
+    SouvenirRepository,
     ColorsAdminService,
     ColorsPublicService,
+    ColorsRepository,
     SouvenirImagesAdminService,
+    SouvenirImageRepository,
     SouvenirColorsAdminService,
+    SouvenirColorRepository,
     SouvenirLikesPublicService,
+    SouvenirLikesRepository,
     SouvenirReviewsPublicService,
+    SouvenirReviewsRepository,
     CartItemPublicService,
+    CartItemRepository,
   ],
   controllers: [
     SouvenirPublicController,

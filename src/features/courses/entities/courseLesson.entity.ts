@@ -31,7 +31,7 @@ export class CourseLesson extends BaseModel {
   order!: number
 
   @Column({type:"timestamp"})
-  data!: Date
+  data!: string
 
   @Column({default: false})
   isFree!: boolean

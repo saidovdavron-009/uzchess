@@ -5,6 +5,7 @@ import { plainToInstance } from 'class-transformer';
 import { CountryListAdminDto } from '../../dtos/countries/admin/country.list.admin.dto';
 import { CountryUpdateAdminDto } from '../../dtos/countries/admin/country.update.admin.dto';
 import { CountryRepository } from '../../repository/country.repository';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Injectable()
 export class CountryAdminService{
@@ -12,14 +13,14 @@ export class CountryAdminService{
   }
 
   async create(payload : CountryCreateAdminDto,icon : Express.Multer.File){
-    const country = Country.create(payload as Country);
-    await Country.save(country);
-    return country;
+    const country = {...payload} as Country;
+    return await this.repo.save(country);
   }
 
-  async getAll(){
-    const country = await Country.find();
-    return plainToInstance(CountryListAdminDto, country, { excludeExtraneousValues: true });
+  async getAll(filters: PaginationFilters){
+    const country = await this.repo.getAll(filters)
+    country.data = plainToInstance(CountryListAdminDto, country.data, { excludeExtraneousValues: true });
+    return country
   }
 
   async getOne(id : number){

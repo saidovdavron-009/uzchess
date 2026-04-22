@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CourseCategoryAdminService } from './services/courseCategory/courseCategory.admin.service';
 import { CourseCategoryPublicService } from './services/courseCategory/courseCategory.public.service';
 import { CourseCategoryAdminController } from './controllers/courseCategory/courseCategory.admin.controller';
@@ -25,22 +26,46 @@ import { CourseReviewAdminController } from './controllers/courseReviews/courseR
 import { CourseReviewPublicController } from './controllers/courseReviews/courseReviews.public.controller';
 import { CourseLikePublicService } from './services/courseLike/courseLike.public.service';
 import { CourseLikePublicController } from './controllers/courseLikes/courseLike.public.controller';
+import { CourseCategoryRepository } from './repository/courseCategory.repository';
+import { CourseRepository } from './repository/course.repository';
+import { CourseSectionRepository } from './repository/courseSection.repository';
+import { CourseLikeRepository as CourseLessonRepository } from './repository/courseLesson.repository';
+import { CourseLikeRepository } from './repository/courseLike.repository';
+import { CourseReviewsRepository } from './repository/courseReviews.repository';
+import { PurchasedCourseRepository } from './repository/purchasedCourse.repository';
+import { CourseCategory } from './entities/courseCategory.entity';
+import { Course } from './entities/course.entity';
+import { CourseSection } from './entities/courseSection.entity';
+import { CourseLesson } from './entities/courseLesson.entity';
+import { CourseLike } from './entities/courseLikes.entity';
+import { CourseReview } from './entities/courseReviews.entity';
+import { PurchasedCourse } from './entities/purchasedCourse.entity';
 
 @Module({
+  imports : [
+    TypeOrmModule.forFeature([CourseCategory, Course, CourseSection, CourseLesson, CourseLike, CourseReview, PurchasedCourse])
+  ],
   providers : [
     CourseCategoryAdminService,
     CourseCategoryPublicService,
+    CourseCategoryRepository,
     CourseAdminService,
     CoursePublicService,
+    CourseRepository,
     CourseSectionAdminService,
     CourseSectionPublicService,
+    CourseSectionRepository,
     CourseLessonAdminService,
     CourseLessonPublicService,
+    CourseLessonRepository,
     PurchasedCourseAdminService,
     PurchasedCoursePublicService,
+    PurchasedCourseRepository,
     CourseReviewAdminService,
     CourseReviewPublicService,
-    CourseLikePublicService
+    CourseReviewsRepository,
+    CourseLikePublicService,
+    CourseLikeRepository,
   ],
   controllers : [
     CourseCategoryAdminController,

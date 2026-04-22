@@ -18,13 +18,13 @@ export class OtpCodePublicService {
       type: type,
     });
 
-    await OtpCode.save(otpCode);
+    await this.repo.save(otpCode)
     console.log(otpCode);
     // TODO: otpni haqiqiy send qilish shu yerda bo'ladi
   }
 
   async verifyOtp(userId: number, code: string) {
-    let otpCode = await OtpCode.findOneBy({ userId: userId });
+    let otpCode = await this.repo.getOneById(userId)
 
     if (!otpCode || otpCode.code !== code) {
       throw new BadRequestException('Codes do not match');

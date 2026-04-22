@@ -1,19 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CourseLesson } from '../../entities/courseLesson.entity';
 import { plainToInstance } from 'class-transformer';
 import { CourseLessonListPublicDto } from '../../dtos/courseLessons/public/courseLesson.list.public.dto';
+import { CourseLikeRepository as CourseLessonRepository } from '../../repository/courseLesson.repository';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Injectable()
 export class CourseLessonPublicService{
-  async getAll(){
-    const courseLesson = await CourseLesson.find()
-    return plainToInstance(CourseLessonListPublicDto,courseLesson,{excludeExtraneousValues : true})
+  constructor(private readonly repo: CourseLessonRepository) {}
+
+  async getAll(filters: PaginationFilters){
+    const courseLesson = await this.repo.getAll(filters)
+    courseLesson.data = plainToInstance(CourseLessonListPublicDto,courseLesson.data,{excludeExtraneousValues : true})
+    return courseLesson
   }
-  
+
   async getOne(id : number){
-    const courseLesson = await CourseLesson.findOneBy({ id });
+    const courseLesson = await this.repo.getOneById(id);
     if(!courseLesson){
       throw new NotFoundException('courseLesson with given id not found')
     }
+    return courseLesson
   }
 }

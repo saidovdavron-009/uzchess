@@ -4,25 +4,29 @@ import { Player } from '../../entities/players.entity';
 import { plainToInstance } from 'class-transformer';
 import { PlayersListAdminDto } from '../../dtos/players/admin/players.list.admin.dto';
 import { PlayersUpdateAdminDto } from '../../dtos/players/admin/players.update.admin.dto';
+import { PlayersRepository } from '../../repository/players.repository';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Injectable()
 export class PlayersAdminService{
+  constructor(private readonly repo: PlayersRepository) {}
+
   async create(payload : PlayersCreateAdminDto,image : Express.Multer.File){
-    const player = Player.create(payload as Player)
+    const player = {...payload} as Player
     if(image){
       player.image = image.path
     }
-    await Player.save(player)
+    return await this.repo.save(player)
+  }
+
+  async getAll(filters: PaginationFilters){
+    const player = await this.repo.getAll(filters)
+    player.data = plainToInstance(PlayersListAdminDto,player.data,{excludeExtraneousValues : true})
     return player
   }
 
-  async getAll(){
-    const player = await  Player.find()
-    return plainToInstance(PlayersListAdminDto,player,{excludeExtraneousValues : true})
-  }
-
   async getOne(id : number){
-    const player = await  Player.findOneBy({id})
+    const player = await this.repo.getOneById(id)
     if(!player){
       throw new NotFoundException('player with given id not found')
     }
@@ -30,7 +34,7 @@ export class PlayersAdminService{
   }
 
   async update(id: number, payload: PlayersUpdateAdminDto, image: Express.Multer.File) {
-    const player = await Player.findOneBy({ id });
+    const player = await this.repo.getOneById(id);
     if (!player) {
       throw new NotFoundException('Player with given id not found');
     }
@@ -46,16 +50,16 @@ export class PlayersAdminService{
       player.image = image.path;
     }
 
-    await Player.save(player);
+    await this.repo.save(player);
     return player;
   }
 
   async delete(id: number) {
-    const player = await Player.findOneBy({ id });
+    const player = await this.repo.getOneById(id);
     if (!player) {
       throw new NotFoundException('Player with given id not found');
     }
 
-    await Player.remove(player);
+    await this.repo.delete(player);
   }
 }

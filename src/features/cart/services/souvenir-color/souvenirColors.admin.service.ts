@@ -27,7 +27,7 @@ export class SouvenirColorsAdminService {
       return existing;
     }
     const souvenirColor = SouvenirColor.create(payload as SouvenirColor);
-    await SouvenirColor.save(souvenirColor);
+    await this.repo.save(souvenirColor);
     return souvenirColor;
   }
 

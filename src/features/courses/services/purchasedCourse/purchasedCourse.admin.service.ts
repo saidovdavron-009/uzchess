@@ -4,22 +4,26 @@ import { PurchasedCourse } from '../../entities/purchasedCourse.entity';
 import { plainToInstance } from 'class-transformer';
 import { PurchasedCourseListAdminDto } from '../../dtos/puchasedCourse/admin/purchasedCourse.list.admin.dto';
 import { PurchasedCoursesUpdateAdminDto } from '../../dtos/puchasedCourse/admin/purchasedCourse.update.admin.dto';
+import { PurchasedCourseRepository } from '../../repository/purchasedCourse.repository';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Injectable()
 export class PurchasedCourseAdminService{
+  constructor(private readonly repo: PurchasedCourseRepository) {}
+
   async create(payload : PurchasedCourseCreateAdminDto){
-    const purchasedCourse = PurchasedCourse.create(payload)
-    await PurchasedCourse.save(purchasedCourse)
+    const purchasedCourse = {...payload} as PurchasedCourse
+    return await this.repo.save(purchasedCourse)
+  }
+
+  async getAll(filters: PaginationFilters){
+    const purchasedCourse = await this.repo.getAll(filters)
+    purchasedCourse.data = plainToInstance(PurchasedCourseListAdminDto,purchasedCourse.data,{excludeExtraneousValues :true})
     return purchasedCourse
   }
 
-  async getAll(){
-    const purchasedCourse = await PurchasedCourse.find()
-    return plainToInstance(PurchasedCourseListAdminDto,purchasedCourse,{excludeExtraneousValues :true})
-  }
-
   async getOne(id : number){
-    const purchasedCourse = await PurchasedCourse.findOneBy({ id });
+    const purchasedCourse = await this.repo.getOneById(id);
     if(!purchasedCourse){
       throw new NotFoundException('purchaseCourse with given id not found')
     }
@@ -28,7 +32,7 @@ export class PurchasedCourseAdminService{
   }
 
   async update(id : number,payload : PurchasedCoursesUpdateAdminDto){
-    const purchasedCourse = await PurchasedCourse.findOneBy({ id });
+    const purchasedCourse = await this.repo.getOneById(id);
     if(!purchasedCourse){
       throw new NotFoundException('purchaseCourse with given id not found')
     }
@@ -38,16 +42,16 @@ export class PurchasedCourseAdminService{
         Object.entries(payload).filter(([key,value]) => value)
       )
     )
-    await PurchasedCourse.save(purchasedCourse)
+    await this.repo.save(purchasedCourse)
     return purchasedCourse
   }
 
   async delete(id : number){
-    const purchasedCourse = await PurchasedCourse.findOneBy({ id });
+    const purchasedCourse = await this.repo.getOneById(id);
     if(!purchasedCourse){
       throw new NotFoundException('purchaseCourse with given id not found')
     }
 
-    await PurchasedCourse.remove(purchasedCourse)
+    await this.repo.delete(purchasedCourse)
   }
 }

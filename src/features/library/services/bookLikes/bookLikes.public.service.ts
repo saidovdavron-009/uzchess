@@ -14,11 +14,11 @@ export class BookLikesPublicService{
 
   async toggleLike(bookId : number,userId : number){
 
-    const user = await this.repo.getOneById(userId)
+    const user = await User.findOneBy({ id: userId })
     if(!user){
       throw new NotFoundException('user with given id not found')
     }
-    const book = await this.repo.getOneById(bookId)
+    const book = await Book.findOneBy({ id: bookId })
     if(!book){
       throw new NotFoundException('course with given id not found')
     }
@@ -29,7 +29,7 @@ export class BookLikesPublicService{
       return {message : "Removed"}
     }else{
       const newLike = BookLike.create({ userId: user.id, bookId : bookId })
-      await BookLike.save(newLike)
+      await this.repo.save(newLike)
       return {message : "liked"}
     }
   }

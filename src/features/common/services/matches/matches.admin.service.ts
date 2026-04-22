@@ -4,25 +4,29 @@ import { MatchesCreateAdminDto } from '../../dtos/matches/admin/matches.create.a
 import { MatchesUpdateUpdateDto } from '../../dtos/matches/admin/matches.update.update.dto';
 import { plainToInstance } from 'class-transformer';
 import { MatchesListAdminDto } from '../../dtos/matches/admin/matches.list.admin.dto';
+import { MatchesRepository } from '../../repository/matches.repository';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Injectable()
 export class MatchesAdminService {
+  constructor(private readonly repo: MatchesRepository) {}
+
   async create(payload : MatchesCreateAdminDto,moves : Express.Multer.File){
-    const matches = MatchesEntity.create(payload)
+    const matches = {...payload} as MatchesEntity
     if(moves){
       matches.moves = moves.path
     }
-    await MatchesEntity.save(matches)
+    return await this.repo.save(matches)
+  }
+
+  async getAll(filters: PaginationFilters) {
+    const matches = await this.repo.getAll(filters)
+    matches.data = plainToInstance(MatchesListAdminDto,matches.data,{excludeExtraneousValues:true});
     return matches
   }
 
-  async getAll() {
-    const matches = await MatchesEntity.find();
-    return plainToInstance(MatchesListAdminDto,matches,{excludeExtraneousValues:true});
-  }
-
   async getOne(id: number) {
-    const matches = await MatchesEntity.findOneBy({ id });
+    const matches = await this.repo.getOneById(id);
 
     if (!matches) {
       throw new NotFoundException('Matches with given id not found');
@@ -32,17 +36,17 @@ export class MatchesAdminService {
   }
 
   async delete(id: number) {
-    const matches = await MatchesEntity.findOneBy({ id });
+    const matches = await this.repo.getOneById(id);
 
     if (!matches) {
       throw new NotFoundException('Matches with given id not found');
     }
 
-    await MatchesEntity.remove(matches);
+    await this.repo.delete(matches);
   }
 
   async update(id: number, payload: MatchesUpdateUpdateDto,moves : Express.Multer.File) {
-    const matches = await MatchesEntity.findOneBy({ id });
+    const matches = await this.repo.getOneById(id);
     if (!matches) {
       throw new NotFoundException('Matches with given id not found');
     }
@@ -55,7 +59,7 @@ export class MatchesAdminService {
     if(moves){
       matches.moves = moves.path
     }
-    await MatchesEntity.save(matches)
+    await this.repo.save(matches)
     return matches
   }
 }

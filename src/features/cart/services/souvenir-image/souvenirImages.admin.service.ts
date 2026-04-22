@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { SouvenirImages } from '../../entities/souvenirImages.entity';
-import { Souvenir } from '../../entities/souvenir.entity';
 import { SouvenirImageRepository } from '../../repository/souvenir-image.repository';
 
 @Injectable()
@@ -21,10 +20,10 @@ export class SouvenirImagesAdminService {
   }
 
   async deleteImage(imageId: number) {
-    const image = await SouvenirImages.findOneBy({ id: imageId });
+    const image = await this.repo.getOneById(imageId);
     if (!image) {
       throw new NotFoundException('Image with given id not found');
     }
-    await SouvenirImages.remove(image);
+    await this.repo.delete(image);
   }
 }

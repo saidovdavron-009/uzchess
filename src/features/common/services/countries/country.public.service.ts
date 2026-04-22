@@ -13,6 +13,7 @@ export class CountryPublicService{
   async getAll(filters : PaginationFilters){
     const country = await this.repo.getAll(filters)
     country.data = plainToInstance(CountryListPublicDto, country.data, { excludeExtraneousValues: true });
+    return country
   }
 
   async getOne(id : number){
