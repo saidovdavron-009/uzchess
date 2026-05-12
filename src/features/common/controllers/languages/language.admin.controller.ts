@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, ParseDatePipe, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseDatePipe, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { LanguageListAdminDto } from '../../dtos/languages/admin/language.list.admin.dto';
 import { LanguageCreateAdminDto } from '../../dtos/languages/admin/language.create.admin.dto';
 import { LanguageUpdateAdminDto } from '../../dtos/languages/admin/language.update.admin.dto';
 import { LanguageAdminService } from '../../services/languages/language.admin.service';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('admin/language')
 export class LanguageAdminController {
@@ -13,8 +14,8 @@ export class LanguageAdminController {
 
   @Get()
   @ApiOkResponse({ type: () => LanguageListAdminDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters) {
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

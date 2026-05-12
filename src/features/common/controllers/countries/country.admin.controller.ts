@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CountryListAdminDto } from '../../dtos/countries/admin/country.list.admin.dto';
 import { CountryDetailAdminDto } from '../../dtos/countries/admin/country.detail.admin.dto';
@@ -7,6 +19,7 @@ import { CountryUpdateAdminDto } from '../../dtos/countries/admin/country.update
 import { CountryAdminService } from '../../services/countries/country.admin.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 
 @ApiTags('Country-admin')
@@ -29,8 +42,8 @@ export class CountryAdminController {
 
   @Get()
   @ApiOkResponse({ type: () => CountryListAdminDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters) {
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

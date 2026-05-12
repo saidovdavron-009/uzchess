@@ -1,7 +1,8 @@
 import { ApiOkResponse } from '@nestjs/swagger';
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { MatchesPublicService } from '../../services/matches/matches.public.service';
 import { MatchListPublicDto } from '../../dtos/matches/public/match.list.public.dto';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('public/matches')
 export class MatchesPublicController {
@@ -9,8 +10,8 @@ export class MatchesPublicController {
 
   @Get()
   @ApiOkResponse({type: ()=> MatchListPublicDto})
-  async getAll(){
-    return await this.service.getAll();
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')

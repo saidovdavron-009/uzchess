@@ -1,8 +1,9 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { AuthorListPublicDto } from '../../dtos/author/public/author.list.public.dto';
 import { AuthorDetailPublicDto } from '../../dtos/author/public/author.detail.public.dto';
 import { AuthorPublicService } from '../../services/author/author.public.service';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('public/author')
 export class AuthorPublicController{
@@ -11,8 +12,8 @@ export class AuthorPublicController{
 
   @Get()
   @ApiOkResponse({type : () => AuthorListPublicDto,isArray : true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

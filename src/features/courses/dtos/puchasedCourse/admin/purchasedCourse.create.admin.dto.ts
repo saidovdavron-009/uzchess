@@ -8,12 +8,12 @@ export class PurchasedCourseCreateAdminDto{
 
   @ApiProperty()
   @IsNumber()
-  coursesId!: number;
+  courseId!: number;
 
   @ApiProperty()
   @IsBoolean()
   @IsOptional()
-  isCompleted?: boolean;
+  isCompleted!: boolean;
 
   @ApiProperty()
   @IsDateString()

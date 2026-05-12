@@ -9,6 +9,10 @@ export class CourseLessonCreateAdminDto {
 
   @IsNumber()
   @ApiProperty()
+  difficultyId! : number
+
+  @IsNumber()
+  @ApiProperty()
   courseSectionId! : number
 
   @IsString()
@@ -23,7 +27,7 @@ export class CourseLessonCreateAdminDto {
   @IsString()
   @ApiProperty()
   @IsOptional()
-  thumbnail? : string
+  thumbnail! : string
 
   @IsString()
   @Allow()
@@ -32,8 +36,7 @@ export class CourseLessonCreateAdminDto {
 
   @IsNumber()
   @ApiProperty()
-  @IsOptional()
-  order? : number
+  order! : number
 
   @IsDateString()
   @ApiProperty()

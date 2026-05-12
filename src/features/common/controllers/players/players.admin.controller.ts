@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { PlayersDetailAdminDto } from '../../dtos/players/admin/players.detail.a
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
 import { PlayersUpdateAdminDto } from '../../dtos/players/admin/players.update.admin.dto';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('admin/player')
 export class PlayersAdminController{
@@ -37,8 +39,8 @@ export class PlayersAdminController{
 
   @Get()
   @ApiOkResponse({type : () => PlayersListAdminDto,isArray : true})
-  async  getAll(){
-    return await this.service.getAll()
+  async  getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

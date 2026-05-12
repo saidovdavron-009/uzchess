@@ -6,15 +6,23 @@ import { UsersPublicController } from './controllers/users/users.public.controll
 import { JwtModule } from '@nestjs/jwt';
 import { jwtModuleConfig } from '../../config/jwt-module.config';
 import { OtpCodePublicService } from './services/otpCodes/otp-code.public.service';
+import { UserRepository } from './repositories/user.repository';
+import { OtpCodeRepository } from './repositories/otp.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/users.entity';
+import { OtpCode } from './entities/otpCodes.entity';
 
 @Module({
   providers : [
+    UserRepository,
+    OtpCodeRepository,
     UsersAdminService,
     UsersPublicService,
-    OtpCodePublicService
+    OtpCodePublicService,
   ],
   imports : [
-    JwtModule.register(jwtModuleConfig)
+    JwtModule.register(jwtModuleConfig),
+    TypeOrmModule.forFeature([User,OtpCode])
   ],
   controllers : [
     UsersAdminController,

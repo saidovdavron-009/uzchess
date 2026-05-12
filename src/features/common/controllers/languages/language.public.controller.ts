@@ -1,7 +1,8 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { LanguagePublicService } from '../../services/languages/language.public.service';
 import { LanguageListPublicDto } from '../../dtos/languages/public/language.list.public.dto';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('public/language')
 export class LanguagePublicController {
@@ -11,8 +12,8 @@ export class LanguagePublicController {
 
   @Get()
   @ApiOkResponse({ type: () => LanguageListPublicDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters) {
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

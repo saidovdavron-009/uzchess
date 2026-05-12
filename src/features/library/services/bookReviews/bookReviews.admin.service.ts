@@ -12,7 +12,7 @@ export class BookReviewsAdminService {
   constructor(private readonly repo: BookReviewsRepository) {}
 
   async create(payload : BookReviewsCreateAdminDto){
-    const bookReviews = {...payload} as BookReview
+    const bookReviews = payload as BookReview
     return await this.repo.save(bookReviews)
   }
 

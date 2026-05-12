@@ -26,9 +26,7 @@ export class UserRepository extends BaseRepository<User>{
     return await this.repo.findOne({
       where: {
         login: payload.login,
-        code: payload.code,
-        type: OtpType.REGISTER
-      } as any
+      }
     });
   }
 }

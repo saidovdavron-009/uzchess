@@ -26,7 +26,7 @@ export class CourseReviewAdminService {
   }
 
   async create(payload: CourseReviewsCreateAdminDto) {
-    const item = {...payload} as CourseReview
+    const item = payload as CourseReview
     return await this.repo.save(item)
   }
 

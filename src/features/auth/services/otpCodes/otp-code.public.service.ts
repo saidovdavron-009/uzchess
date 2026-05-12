@@ -24,7 +24,7 @@ export class OtpCodePublicService {
   }
 
   async verifyOtp(userId: number, code: string) {
-    let otpCode = await this.repo.getOneById(userId)
+    let otpCode = await this.repo.getOneByUserId(userId)
 
     if (!otpCode || otpCode.code !== code) {
       throw new BadRequestException('Codes do not match');

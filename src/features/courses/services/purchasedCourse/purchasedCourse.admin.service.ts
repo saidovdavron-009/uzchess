@@ -12,7 +12,7 @@ export class PurchasedCourseAdminService{
   constructor(private readonly repo: PurchasedCourseRepository) {}
 
   async create(payload : PurchasedCourseCreateAdminDto){
-    const purchasedCourse = {...payload} as PurchasedCourse
+    const purchasedCourse = payload as PurchasedCourse
     return await this.repo.save(purchasedCourse)
   }
 

@@ -15,11 +15,11 @@ export class CourseSection extends BaseModel {
   order!: number;
 
   @Column({ type: 'timestamp' })
-  date!: Date;
+  date!: string;
 
   @ManyToOne(() => Course, (course) => course.sections)
-  course!: Course;
+  course?: Course;
 
   @OneToMany(() => CourseLesson, (lesson) => lesson.courseSection)
-  lessons!: CourseLesson[];
+  lessons?: CourseLesson[];
 }

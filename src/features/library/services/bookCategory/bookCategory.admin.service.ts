@@ -6,7 +6,6 @@ import { BookCategoryCreateAdminDto } from '../../dtos/bookCategories/admin/book
 import { BookCategoryUpdateAdminDto } from '../../dtos/bookCategories/admin/bookCategory.update.admin.dto';
 import { BookCategoryRepository } from '../../repository/bookCategory.repository';
 import { PaginationFilters } from '../../../common/filters/pagination.filter';
-import { News } from '../../../news/entities/news.entity';
 
 @Injectable()
 export class BookCategoryAdminService{

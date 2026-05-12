@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CourseLessonAdminService } from '../../services/courseLessons/courseLesson.admin.service';
 import { CourseLessonCreateAdminDto } from '../../dtos/courseLessons/admin/courseLesson.create.admin.dto';
 import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
@@ -7,6 +19,7 @@ import { CourseLessonUpdateAdminDto } from '../../dtos/courseLessons/admin/cours
 import { CourseLessonDetailAdminDto } from '../../dtos/courseLessons/admin/courseLesson.detail.admin.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('admin/courseLesson')
 export class CourseLessonAdminController{
@@ -27,8 +40,8 @@ export class CourseLessonAdminController{
 
   @Get()
   @ApiOkResponse({type : () => CourseLessonListAdminDto,isArray:true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

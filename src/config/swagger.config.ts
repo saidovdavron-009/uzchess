@@ -1,15 +1,15 @@
-import {INestApplication} from "@nestjs/common";
-import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
+import {INestApplication} from '@nestjs/common';
 
 export const configureSwagger = (app: INestApplication) => {
   let swaggerConfig = new DocumentBuilder()
     .setTitle('UzChess')
     .setVersion('1.0.0')
     .addBearerAuth()
-    .build()
+    .build();
 
-  let docs = SwaggerModule.createDocument(app,swaggerConfig)
-  SwaggerModule.setup('/docs',app,docs, {
-    swaggerOptions : {persistAuthorization : true}
-  })
-}
+  let docs = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('/docs', app, docs, {
+    swaggerOptions: {persistAuthorization: true}
+  });
+};

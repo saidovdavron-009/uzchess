@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BookCategory } from '../../entities/bookCategory.entity';
 import { plainToInstance } from 'class-transformer';
 import { BookCategoryListPublicDto } from '../../dtos/bookCategories/public/bookCategory.list.public.dto';
-import { NewsRepository } from '../../../news/repository/news/news.repository';
 import { BookCategoryRepository } from '../../repository/bookCategory.repository';
 import { BookCategoryFilters } from '../../filters/bookCategory.filters';
 

@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { CourseCategoryAdminService } from '../../services/courseCategory/courseCategory.admin.service';
 import { CourseCategoryListAdminDto } from '../../dtos/courseCategories/admin/courseCategory.list.admin.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { CourseCategoryDetailAdminDto } from '../../dtos/courseCategories/admin/courseCategory.detail.admin.dto';
 import { CourseCategoryCreateAdminDto } from '../../dtos/courseCategories/admin/courseCategory.create.admin.dto';
 import { CourseCategoryUpdateAdminDto } from '../../dtos/courseCategories/admin/courseCategory.update.admin.dto';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('admin/courseCategory')
 export class CourseCategoryAdminController{
@@ -19,8 +20,8 @@ export class CourseCategoryAdminController{
 
   @Get()
   @ApiOkResponse({type : () => CourseCategoryListAdminDto,isArray:true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

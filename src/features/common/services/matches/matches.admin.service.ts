@@ -12,7 +12,7 @@ export class MatchesAdminService {
   constructor(private readonly repo: MatchesRepository) {}
 
   async create(payload : MatchesCreateAdminDto,moves : Express.Multer.File){
-    const matches = {...payload} as MatchesEntity
+    const matches = payload as MatchesEntity
     if(moves){
       matches.moves = moves.path
     }

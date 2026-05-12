@@ -13,8 +13,7 @@ export class CourseSectionCreateAdminDto {
 
   @IsNumber()
   @ApiProperty()
-  @IsOptional()
-  order?: number
+  order!: number
 
   @IsDateString()
   @ApiProperty()

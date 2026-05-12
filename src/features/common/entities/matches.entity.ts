@@ -31,9 +31,9 @@ export class MatchesEntity extends BaseModel{
 
   @ManyToOne(() =>  Player, (player) => player.matchesAsFirst, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'firstPlayer' })
-  firstPlayerRef!: Player;
+  firstPlayerRef?: Player;
 
   @ManyToOne(() => Player, (player) => player.matchesAsSecond, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'secondPlayer' })
-  secondPlayerRef!: Player;
+  secondPlayerRef?: Player;
 }

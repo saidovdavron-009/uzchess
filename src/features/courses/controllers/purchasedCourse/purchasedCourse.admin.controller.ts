@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { PurchasedCourseAdminService } from '../../services/purchasedCourse/purchasedCourse.admin.service';
 import { PurchasedCourseCreateAdminDto } from '../../dtos/puchasedCourse/admin/purchasedCourse.create.admin.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { PurchasedCourseListAdminDto } from '../../dtos/puchasedCourse/admin/purchasedCourse.list.admin.dto';
 import { PurchasedCourseDetailAdminDto } from '../../dtos/puchasedCourse/admin/purchasedCourse.detail.admin.dto';
 import { PurchasedCoursesUpdateAdminDto } from '../../dtos/puchasedCourse/admin/purchasedCourse.update.admin.dto';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('admin/purchasedCourse')
 export class PurchasedCourseAdminController{
@@ -19,8 +20,8 @@ export class PurchasedCourseAdminController{
 
   @Get()
   @ApiOkResponse({type : () => PurchasedCourseListAdminDto,isArray:true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
   @Get(':id')
   @ApiOkResponse({type : () => PurchasedCourseDetailAdminDto})

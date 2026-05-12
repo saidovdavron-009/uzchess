@@ -6,7 +6,7 @@ export class MatchesCreateAdminDto {
    @IsNumber()
    @IsNotEmpty()
    @ApiProperty()
-   firstPlayerId!: number;
+   firstPlayer!: number;
 
    @IsNumber()
    @ApiProperty()
@@ -16,7 +16,7 @@ export class MatchesCreateAdminDto {
    @IsNumber()
    @ApiProperty()
    @IsNotEmpty()
-   secondPlayerId!: number;
+   secondPlayer!: number;
 
    @IsNumber()
    @ApiProperty()

@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { configureSwagger } from './config/swagger.config';
 import {NestExpressApplication} from '@nestjs/platform-express';
 import { join } from 'path'
-import morgan from 'morgan'
+import morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

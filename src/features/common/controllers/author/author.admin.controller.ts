@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common';
 import { AuthorAdminService } from '../../services/author/author.admin.service';
 import { AuthorCreateAdminDto } from '../../dtos/author/admin/author.create.admin.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { AuthorListAdminDto } from '../../dtos/author/admin/author.list.admin.dto';
 import { AuthorDetailAdminDto } from '../../dtos/author/admin/author.detail.admin.dto';
 import { AuthorUpdateAdminDto } from '../../dtos/author/admin/author.update.admin.dto';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('admin/author')
 export class AuthorAdminController{
@@ -18,8 +19,8 @@ export class AuthorAdminController{
 
   @Get()
   @ApiOkResponse({type : () => AuthorListAdminDto,isArray : true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

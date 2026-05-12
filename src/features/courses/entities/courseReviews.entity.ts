@@ -18,7 +18,7 @@ export class CourseReview extends BaseModel {
   comment!: string;
 
   @Column({ type: 'timestamp' })
-  date!: Date;
+  date!: string;
 
   @ManyToOne(() => User)
   user!: User;

@@ -19,7 +19,7 @@ export class CourseLesson extends BaseModel {
   title!: string;
 
   @Column({type: 'text', nullable: true})
-  content!: string
+  content?: string
 
   @Column({ length: 128, nullable: true })
   thumbnail!: string;
@@ -31,17 +31,17 @@ export class CourseLesson extends BaseModel {
   order!: number
 
   @Column({type:"timestamp"})
-  data!: string
+  date!: string
 
   @Column({default: false})
   isFree!: boolean
 
   @ManyToOne(() => Course)
-  course!: Course;
+  course?: Course;
 
   @ManyToOne(() => CourseSection, (section) => section.lessons)
-  courseSection!: CourseSection;
+  courseSection?: CourseSection;
 
   @ManyToOne(() => Difficulty, (difficult) => difficult.courseLessons)
-  difficulty!: Difficulty;
+  difficulty?: Difficulty;
 }

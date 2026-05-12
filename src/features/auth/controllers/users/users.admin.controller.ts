@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UsersAdminService } from '../../services/users/users.admin.service';
 import { UserCreateAdminDto } from '../../dtos/users/admin/users.create.admin.dto';
 import { ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
@@ -7,6 +19,7 @@ import { UsersDetailAdminDto } from '../../dtos/users/admin/users.detail.admin.d
 import { UsersUpdateAdminDto} from '../../dtos/users/admin/users.update.admin.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storageOptions } from '../../../../config/multer.config';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('admin/users')
 export class UsersAdminController{
@@ -26,8 +39,8 @@ export class UsersAdminController{
 
   @Get()
   @ApiOkResponse({type : () => UserListAdminDto,isArray : true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

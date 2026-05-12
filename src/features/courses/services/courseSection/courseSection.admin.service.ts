@@ -27,7 +27,7 @@ export class CourseSectionAdminService{
   }
 
   async create(payload : CourseSectionCreateAdminDto){
-    const courseSection = {...payload} as CourseSection
+    const courseSection = payload as CourseSection
     return await this.repo.save(courseSection)
   }
 

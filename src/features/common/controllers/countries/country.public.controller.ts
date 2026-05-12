@@ -1,8 +1,9 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { CountryPublicService } from '../../services/countries/country.public.service';
 import { CountryListPublicDto } from '../../dtos/countries/public/country.list.public.dto';
 import { CountryDetailPublicDto } from '../../dtos/countries/public/country.detail.public.dto';
+import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Controller('public/country')
 export class CountryPublicController {
@@ -12,8 +13,8 @@ export class CountryPublicController {
 
   @Get()
   @ApiOkResponse({ type: () => CountryListPublicDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters) {
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

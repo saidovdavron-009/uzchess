@@ -1,12 +1,13 @@
 import { BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-export class BaseModel extends BaseEntity{
+export class BaseModel extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id! : number
+  id!: number;
 
-  @CreateDateColumn()
-  createdAt! : string
+  @CreateDateColumn({ type: 'timestamptz' })
 
-  @UpdateDateColumn({ nullable : true })
-  updatedAt? : string
+  createdAt!: string;
+
+  @UpdateDateColumn({ type: 'timestamptz', nullable: true })
+  updatedAt?: string;
 }

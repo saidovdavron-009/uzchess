@@ -1,8 +1,9 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { CourseCategoryListPublicDto } from '../../dtos/courseCategories/public/courseCategory.list.public.dto';
 import { CourseCategoryDetailPublicDto } from '../../dtos/courseCategories/public/courseCategory.detail.public.dto';
 import { CourseCategoryPublicService } from '../../services/courseCategory/courseCategory.public.service';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('public/courseCategory')
 export class CourseCategoryPublicController{
@@ -12,8 +13,8 @@ export class CourseCategoryPublicController{
 
   @Get()
   @ApiOkResponse({type : () => CourseCategoryListPublicDto,isArray:true})
-  async getAll(){
-    return await this.service.getAll()
+  async getAll(@Query() filters : PaginationFilters){
+    return await this.service.getAll(filters)
   }
 
   @Get(':id')

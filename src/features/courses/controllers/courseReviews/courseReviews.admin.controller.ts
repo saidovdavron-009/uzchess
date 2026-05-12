@@ -1,11 +1,12 @@
 // courseReview.admin.controller.ts
-import { Body, Controller, Delete, Get, Param, Post, Patch, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, ParseIntPipe, Query } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { CourseReviewAdminService } from '../../services/courseReviews/courseReviews.admin.service';
 import { CourseReviewsListAdminDto } from '../../dtos/courseReviews/admin/courseReviews.list.admin.dto';
 import { CourseReviewsDetailAdminDto } from '../../dtos/courseReviews/admin/courseReviews.detail.admin.dto';
 import { CourseReviewsCreateAdminDto } from '../../dtos/courseReviews/admin/courseReviews.create.admin.dto';
 import { CourseReviewsUpdateAdminDto } from '../../dtos/courseReviews/admin/courseReviews.update.admin.dto';
+import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('admin/courseReviews')
 export class CourseReviewAdminController {
@@ -15,8 +16,8 @@ export class CourseReviewAdminController {
 
   @Get()
   @ApiOkResponse({ type: () => CourseReviewsListAdminDto, isArray: true })
-  async getAll() {
-    return await this.service.getAll();
+  async getAll(@Query() filters : PaginationFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')

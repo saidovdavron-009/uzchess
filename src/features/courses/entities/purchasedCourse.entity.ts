@@ -15,7 +15,7 @@ export class PurchasedCourse extends BaseModel {
   isCompleted!: boolean;
 
   @Column({ type: 'timestamp' })
-  date!: Date;
+  date!: string;
 
   @ManyToOne(() => User)
   user!: User;
