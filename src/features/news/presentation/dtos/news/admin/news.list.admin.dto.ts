@@ -18,5 +18,9 @@ export class NewsListAdminDto{
 
   @Expose()
   @ApiProperty()
+  content!: string
+
+  @Expose()
+  @ApiProperty()
   date! : string
 }

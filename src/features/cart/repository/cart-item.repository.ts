@@ -30,4 +30,8 @@ export class CartItemRepository extends BaseRepository<CartItem>{
       targetId : targetId
     });
   }
+
+  async getAllByUserId(userId: number) {
+    return await this.repo.find({ where: { userId } });
+  }
 }

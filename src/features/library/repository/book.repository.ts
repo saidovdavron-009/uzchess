@@ -22,6 +22,6 @@ export class BookRepository extends BaseRepository<Book>{
     if(filters.search){
       whereOptions.title = ILike(`%${filters.search}%`)
     }
-    return await super.getAll(filters, whereOptions)
+    return await super.getAll(filters, whereOptions, ['author','category','language','difficulty'])
   }
 }

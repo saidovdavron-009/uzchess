@@ -4,6 +4,10 @@ import { Expose } from 'class-transformer';
 export class CourseDetailAdminDto{
   @Expose()
   @ApiProperty()
+  id!: number
+
+  @Expose()
+  @ApiProperty()
   authorId! : number
 
   @Expose()
@@ -44,7 +48,7 @@ export class CourseDetailAdminDto{
 
   @Expose()
   @ApiProperty()
-  sectionCount! : number
+  sectionsCount! : number
 
   @Expose()
   @ApiProperty()

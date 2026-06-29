@@ -34,6 +34,8 @@ import { Difficulty } from './entities/difficulty.entity';
 import { MatchesEntity } from './entities/matches.entity';
 import { Player } from './entities/players.entity';
 import { Author } from './entities/author.entity';
+import { AuthorAdminController } from './controllers/author/author.admin.controller';
+import { AuthorPublicController } from './controllers/author/author.public.controller';
 
 @Module({
   imports : [
@@ -69,7 +71,9 @@ import { Author } from './entities/author.entity';
     DifficultyAdminController,
     DifficultyPublicController,
     PlayersAdminController,
-    PlayersPublicController
+    PlayersPublicController,
+    AuthorAdminController,
+    AuthorPublicController
   ]
 })
 

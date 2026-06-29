@@ -7,6 +7,8 @@ import { GlobalFilters } from '../../../../../core/filters/global.filters';
 import { PaginationResult } from '../../../../common/dtos/pagination-result';
 import { PaginationFilters } from '../../../../common/filters/pagination.filter';
 import { getFullPath } from '../../../../../core/utils/pathHelper';
+import { NewsListPublicDto } from '../../dtos/news/public/news.list.public.dto';
+import { NewsFilter } from '../../filters/news.filter';
 
 @Controller('public/news')
 @UseFilters(GlobalFilters)
@@ -16,8 +18,8 @@ export class NewsPublicController {
   }
 
   @Get()
-  @ApiOkResponse({type : () => PaginationResult, isArray : true})
-  async getAll(@Req() req: Request, @Query() filters : PaginationFilters)  {
+  @ApiOkResponse({type : () => NewsListPublicDto, isArray : true})
+  async getAll(@Req() req: Request, @Query() filters : NewsFilter)  {
     const result = await this.service.getAll(filters)
     result.data.forEach((item) => (item.image = getFullPath(req,item.image)))
     return result

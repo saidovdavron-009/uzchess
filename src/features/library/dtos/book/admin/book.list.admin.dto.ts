@@ -65,4 +65,8 @@ export class BookListAdminDto {
   @Expose()
   @ApiProperty()
   isLike! : boolean
+
+  @Expose()
+  @ApiProperty()
+  description!: string
 }

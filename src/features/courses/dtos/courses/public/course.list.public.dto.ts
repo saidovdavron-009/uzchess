@@ -1,56 +1,68 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { AuthorListPublicDto } from '../../../../common/dtos/author/public/author.list.public.dto';
+import { CourseCategoryListPublicDto } from '../../courseCategories/public/courseCategory.list.public.dto';
+import { LanguageListPublicDto } from '../../../../common/dtos/languages/public/language.list.public.dto';
+import { DifficultyListPublicDto } from '../../../../common/dtos/difficulties/public/difficulty.list.public.dto';
 
-export class CourseListPublicDto{
+export class CourseListPublicDto {
   @Expose()
   @ApiProperty()
-  authorId! : number
-
-  @Expose()
-  @ApiProperty()
-  categoryId! : number
-
-  @Expose()
-  @ApiProperty()
-  languageId!:number
+  @Type(() => AuthorListPublicDto)
+  author!: AuthorListPublicDto;
 
   @Expose()
   @ApiProperty()
-  difficultyId! : number
+  @Type(() => CourseCategoryListPublicDto)
+  category!: CourseCategoryListPublicDto;
 
   @Expose()
   @ApiProperty()
-  title! : string
+  @Type(() => LanguageListPublicDto)
+  language!: LanguageListPublicDto;
 
   @Expose()
   @ApiProperty()
-  image! : string
+  @Type(() => DifficultyListPublicDto)
+  difficulty!: DifficultyListPublicDto;
 
   @Expose()
   @ApiProperty()
-  price! : number
+  id: number
 
   @Expose()
   @ApiProperty()
-  newPrice? : number
+  title!: string;
 
   @Expose()
   @ApiProperty()
-  reviewsCount! : number
+  image!: string;
 
   @Expose()
   @ApiProperty()
-  rating?:number
+  price!: number;
 
   @Expose()
   @ApiProperty()
-  sectionCount! : number
+  newPrice?: number;
 
   @Expose()
   @ApiProperty()
-  lessonsCount!: number
+  reviewsCount!: number;
 
   @Expose()
   @ApiProperty()
-  isLike : boolean
+  rating?: number;
+
+  @Expose()
+  @ApiProperty()
+  sectionsCount!: number;
+
+  @Expose()
+  @ApiProperty()
+  lessonsCount!: number;
+
+  @Expose()
+  @ApiProperty()
+  isLike: boolean;
 }

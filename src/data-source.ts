@@ -7,4 +7,4 @@
     synchronize: false,
     entities: ['dist/**/*.entity.js'],
     migrations: ['dist/migrations/*.js'],
-  });
+});

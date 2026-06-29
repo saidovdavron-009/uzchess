@@ -2,11 +2,12 @@ import { User } from '../../entities/users.entity';
 import { UserCreateAdminDto } from '../../dtos/users/admin/users.create.admin.dto';
 import { plainToInstance } from 'class-transformer';
 import { UserListAdminDto } from '../../dtos/users/admin/users.list.admin.dto';
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersUpdateAdminDto } from '../../dtos/users/admin/users.update.admin.dto';
 import { UserRepository } from '../../repositories/user.repository';
 import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
+@Injectable()
 export class UsersAdminService{
   constructor(private readonly repo: UserRepository) {
   }

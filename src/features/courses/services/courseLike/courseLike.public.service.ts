@@ -8,6 +8,11 @@ import { CourseLikeRepository } from '../../repository/courseLike.repository';
 export class CourseLikePublicService{
   constructor(private readonly repo: CourseLikeRepository) {}
 
+  async getLikedCourses(userId: number) {
+    const likes = await CourseLike.find({ where: { userId }, relations: ['course'] });
+    return likes.map(l => l.course).filter(Boolean);
+  }
+
   async toggleLike(courseId : number,userId : number){
 
     const user = await User.findOneBy({ id: userId})

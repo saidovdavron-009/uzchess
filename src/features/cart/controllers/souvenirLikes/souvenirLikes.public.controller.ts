@@ -1,4 +1,4 @@
-import { Controller, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { SouvenirLikesPublicService } from '../../services/souvenir-likes/souvenirLikes.public.service';
 import { AuthenticationGuard } from '../../../../core/guard/authentication.guard';
@@ -15,6 +15,12 @@ import type { Request } from 'express';
 @UseFilters(GlobalFilters)
 export class SouvenirLikesPublicController {
   constructor(private readonly service: SouvenirLikesPublicService) {}
+
+  @Get()
+  async getLiked(@Req() req: Request) {
+    // @ts-ignore
+    return await this.service.getLikedSouvenirs(req.user.id);
+  }
 
   @Post(':souvenirId')
   async toggleLike(

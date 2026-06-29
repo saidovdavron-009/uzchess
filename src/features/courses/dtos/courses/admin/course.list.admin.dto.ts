@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 export class CourseListAdminDto{
-
   @Expose()
   @ApiProperty()
   id! : number
@@ -49,7 +48,7 @@ export class CourseListAdminDto{
 
   @Expose()
   @ApiProperty()
-  sectionCount! : number
+  sectionsCount! : number
 
   @Expose()
   @ApiProperty()

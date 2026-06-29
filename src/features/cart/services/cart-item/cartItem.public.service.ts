@@ -30,8 +30,8 @@ export class CartItemPublicService {
   }
 
   async getCart(userId: number) {
-    const items = await this.repo.getOneById(userId)
-    plainToInstance(CartItemListPublicDto, items, { excludeExtraneousValues: true });
+    const items = await this.repo.getAllByUserId(userId)
+    return plainToInstance(CartItemListPublicDto, items, { excludeExtraneousValues: true });
   }
 
   async updateQuantity(id: number, userId: number, payload: CartItemUpdatePublicDto) {

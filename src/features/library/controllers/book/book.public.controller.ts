@@ -7,6 +7,8 @@ import type {Request} from 'express';
 import { getFullPath } from '../../../../core/utils/pathHelper';
 import { PaginationResult } from '../../../common/dtos/pagination-result';
 import { PaginationFilters } from '../../../common/filters/pagination.filter';
+import { BookListPublicDto } from '../../dtos/book/public/book.list.public.dto';
+import { BookFilters } from '../../filters/book.filters';
 
 @Controller('public/book')
 @UseFilters(GlobalFilters)
@@ -15,8 +17,8 @@ export class BookPublicController{
   constructor(private service : BookPublicService) {
   }
   @Get()
-  @ApiOkResponse({type : () => PaginationResult,isArray:true})
-  async getAll(@Req() req:Request, @Query()filters : PaginationFilters){
+  @ApiOkResponse({type : () => BookListPublicDto,isArray:true})
+  async getAll(@Req() req:Request, @Query()filters : BookFilters){
     const result = await this.service.getAll(filters)
     result.data.forEach((item) => (item.image = getFullPath(req,item.image)))
     return result

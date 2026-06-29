@@ -1,4 +1,4 @@
-import { Controller, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CourseLikePublicService } from '../../services/courseLike/courseLike.public.service';
 import type { Request } from 'express';
@@ -11,6 +11,12 @@ import { AuthenticationGuard } from '../../../../core/guard/authentication.guard
 export class CourseLikePublicController{
 
   constructor(private readonly service : CourseLikePublicService) {}
+
+  @Get()
+  async getLiked(@Req() request: Request) {
+    // @ts-ignore
+    return await this.service.getLikedCourses(request.user.id);
+  }
 
   @Post(':courseId')
   async toggleLike(@Req() request : Request, @Param('courseId',ParseIntPipe)id : number){

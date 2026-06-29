@@ -1,21 +1,24 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
 
-export class NewsListPublicDto{
+export class NewsListPublicDto {
   @Expose()
   @ApiProperty()
-  id!: number
-
-  @Expose()
-  @ApiProperty()
-  title! : string
+  id!: number;
 
   @Expose()
   @ApiProperty()
-  image! : string
+  title!: string;
 
   @Expose()
   @ApiProperty()
-  date! : string
+  image!: string;
+
+  @Expose()
+  @ApiProperty()
+  date!: string;
+
+  @Expose()
+  @ApiProperty()
+  content!: string;
 }

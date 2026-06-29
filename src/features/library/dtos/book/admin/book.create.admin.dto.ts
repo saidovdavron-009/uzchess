@@ -1,21 +1,26 @@
 import { IsDateString, IsDecimal, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class BookCreateAdminDto {
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   authorId!: number;
 
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   categoryId!: number;
 
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   languageId!: number;
 
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   difficultyId!: number;
 
   @IsString()
@@ -28,33 +33,35 @@ export class BookCreateAdminDto {
   description!: string;
 
   @IsOptional()
-  @IsString()
   @MaxLength(128)
   @ApiProperty({ type: 'string', format : 'binary'})
   image?: string;
 
   @IsNumber()
-  @IsDecimal()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   price!: number;
 
   @IsOptional()
   @IsNumber()
-  @IsDecimal()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   newPrice?: number;
 
   @IsOptional()
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   rating?: number;
 
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   reviewCount!: number;
 
   @IsNumber()
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   pages!: number;
 
   @IsDateString()

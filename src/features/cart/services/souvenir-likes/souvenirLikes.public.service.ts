@@ -9,6 +9,13 @@ export class SouvenirLikesPublicService {
   constructor(private readonly repo : SouvenirLikesRepository) {
   }
 
+  async getLikedSouvenirs(userId: number) {
+    const likes = await SouvenirLikes.find({ where: { userId }, relations: ['user'] });
+    const ids = likes.map(l => l.souvenirId);
+    if (!ids.length) return [];
+    return await Souvenir.findByIds(ids);
+  }
+
   async toggleLike(souvenirId: number, userId: number) {
     const souvenir = await this.repo.getOneById(souvenirId)
     if (!souvenir) {

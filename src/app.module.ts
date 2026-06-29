@@ -12,11 +12,17 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtModuleConfig } from './config/jwt-module.config';
 import Joi from 'joi'
+import { ScheduleModule } from '@nestjs/schedule';
+import { CronsService } from './features/common/services/crons.service';
 
 @Module({
+  providers : [
+    CronsService
+  ],
   imports: [
     JwtModule.register(jwtModuleConfig),
     TypeOrmModule.forRoot(typeOrmConfig),
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -29,7 +35,7 @@ import Joi from 'joi'
         OTP_RESEND: Joi.number().required(),
         BASE_URL: Joi.string().required(),
         DEFAULT_SIZE: Joi.number().required(),
-        DEFAULT_PAGE: Joi.number().required()
+        DEFAULT_PAGE: Joi.number().required(),
       }),
     }),
     NewsModule,

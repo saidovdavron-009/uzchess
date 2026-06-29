@@ -30,7 +30,7 @@ export class Course extends BaseModel {
   @Column({ type: 'decimal', precision: 12, scale: 2 })
   price!: number;
 
-  @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
+  @Column({ type: 'decimal', precision: 12, scale: 2})
   newPrice!: number;
 
   @Column({ default: 0 })

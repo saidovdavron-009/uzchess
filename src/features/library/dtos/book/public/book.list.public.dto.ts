@@ -13,22 +13,22 @@ export class BookListPublicDto {
   @Expose()
   @ApiProperty()
   @Type(() => AuthorListAdminDto)
-  authorId!: AuthorListAdminDto;
+  author!: AuthorListAdminDto;
 
   @Expose()
   @ApiProperty()
   @Type(() => BookCategoryListAdminDto)
-  categoryId!: BookCategoryListAdminDto;
+  category!: BookCategoryListAdminDto;
 
   @Expose()
   @ApiProperty()
   @Type(() => LanguageListAdminDto)
-  languageId!: LanguageListAdminDto;
+  language!: LanguageListAdminDto;
 
   @Expose()
   @ApiProperty()
   @Type(() => DifficultyListAdminDto)
-  difficultyId!: DifficultyListAdminDto;
+  difficulty!: DifficultyListAdminDto;
 
   @Expose()
   @ApiProperty()
@@ -61,4 +61,8 @@ export class BookListPublicDto {
   @Expose()
   @ApiProperty()
   pubDate!: string;
+
+  @Expose()
+  @ApiProperty()
+  description!: string
 }

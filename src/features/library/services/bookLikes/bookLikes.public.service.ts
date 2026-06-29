@@ -12,6 +12,11 @@ export class BookLikesPublicService{
   constructor(private readonly repo: BookLikeRepository) {
   }
 
+  async getLikedBooks(userId: number) {
+    const likes = await BookLike.find({ where: { userId }, relations: ['book'] });
+    return likes.map(l => l.book).filter(Boolean);
+  }
+
   async toggleLike(bookId : number,userId : number){
 
     const user = await User.findOneBy({ id: userId })

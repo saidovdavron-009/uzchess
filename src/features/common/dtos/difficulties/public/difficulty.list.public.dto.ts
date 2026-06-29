@@ -8,5 +8,9 @@ export class DifficultyListPublicDto {
 
   @Expose()
   @ApiProperty()
+  title!: string
+
+  @Expose()
+  @ApiProperty()
   icon!: string
 }

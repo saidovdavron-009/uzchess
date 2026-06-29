@@ -1,17 +1,17 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class PaginationFilters {
   @IsInt()
   @IsOptional()
-  @ApiProperty({required : false})
+  @ApiProperty({ required: false })
   @Type(() => Number)
-  page?: number
+  page?: number;
 
   @IsInt()
   @IsOptional()
-  @ApiProperty({required : false})
+  @ApiProperty({ required: false })
   @Type(() => Number)
-  size?: number
+  size?: number;
 }

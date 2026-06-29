@@ -8,7 +8,7 @@
   @Injectable()
   class CourseAdminService{
     async create(payload : CoursesCreateAdminDto,image : Express.Multer.File){
-      const course = Course.create(payload)
+      const course = Course.create({...payload})
       if(image){
         course.image = image.path
       }

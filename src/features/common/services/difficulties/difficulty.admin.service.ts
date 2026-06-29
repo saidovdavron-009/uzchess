@@ -9,64 +9,64 @@ import { DifficultyRepository } from '../../repository/difficulty.repository';
 import { PaginationFilters } from '../../filters/pagination.filter';
 
 @Injectable()
-export class DifficultyAdminService{
+export class DifficultyAdminService {
 
   constructor(
-    private readonly repo:DifficultyRepository,
-    private readonly joi : ConfigService
+    private readonly repo: DifficultyRepository,
+    private readonly joi: ConfigService,
   ) {
   }
 
-  async create(payload : DifficultyCreateAdminDto,icon: Express.Multer.File){
-    const difficult = {...payload,icon:icon.path} as Difficulty
-    await this.repo.save(difficult)
+  async create(payload: DifficultyCreateAdminDto, icon: Express.Multer.File) {
+    const difficult = { ...payload, icon: icon.path } as Difficulty;
+    await this.repo.save(difficult);
   }
 
-  async getAll(filters: PaginationFilters ){
-    const difficult = await this.repo.getAll(filters)
+  async getAll(filters: PaginationFilters) {
+    const difficult = await this.repo.getAll(filters);
 
-    for (let difficulty of difficult.data){
-      difficulty.icon = this.joi.getOrThrow<string>('BASE_URL') + '/' + difficulty.icon
+    for (let difficulty of difficult.data) {
+      difficulty.icon = this.joi.getOrThrow<string>('BASE_URL') + '/' + difficulty.icon;
     }
-    return plainToInstance(DifficultyListAdminDto,difficult,{excludeExtraneousValues:true})
+    return plainToInstance(DifficultyListAdminDto, difficult, { excludeExtraneousValues: true });
   }
 
-  async getOne(id : number){
-    const difficult = await this.repo.getOneById(id)
-    if(!difficult){
-      throw new NotFoundException('difficult with given id not found')
+  async getOne(id: number) {
+    const difficult = await this.repo.getOneById(id);
+    if (!difficult) {
+      throw new NotFoundException('difficult with given id not found');
     }
 
-    return difficult
+    return difficult;
   }
 
-  async update(id : number,payload : DifficultyUpdateAdminDto,icon : Express.Multer.File){
-    const difficult = await this.repo.getOneById(id)
-    if(!difficult){
-      throw new NotFoundException('difficult with given id not found')
+  async update(id: number, payload: DifficultyUpdateAdminDto, icon: Express.Multer.File) {
+    const difficult = await this.repo.getOneById(id);
+    if (!difficult) {
+      throw new NotFoundException('difficult with given id not found');
     }
 
     Object.assign(
       difficult,
       Object.fromEntries(
-        Object.entries(payload).filter(([key,value]) => value)
-      )
-    )
+        Object.entries(payload).filter(([key, value]) => value),
+      ),
+    );
 
     if (icon) {
       difficult.icon = icon.path;
     }
 
-    await this.repo.save(difficult)
-    return difficult
+    await this.repo.save(difficult);
+    return difficult;
   }
 
-  async delete(id: number){
-    const difficult = await this.repo.getOneById(id)
-    if(!difficult){
-      throw new NotFoundException('difficult with given id not found')
+  async delete(id: number) {
+    const difficult = await this.repo.getOneById(id);
+    if (!difficult) {
+      throw new NotFoundException('difficult with given id not found');
     }
 
-    await this.repo.delete(difficult)
+    await this.repo.delete(difficult);
   }
 }

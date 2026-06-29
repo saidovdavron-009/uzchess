@@ -1,5 +1,5 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Controller, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post, Req, UseGuards } from '@nestjs/common';
 import { BookLikesPublicService } from '../../services/bookLikes/bookLikes.public.service';
 import type {Request} from 'express';
 import { Roles } from '../../../../core/decorators/roles.decorator';
@@ -10,10 +10,16 @@ import { AuthenticationGuard } from '../../../../core/guard/authentication.guard
 @ApiBearerAuth()
 @Controller('public/book-like')
 @UseGuards(AuthenticationGuard)
-@Roles(Role.ADMIN,Role.SUPER_ADMIN)
+@Roles(Role.USER, Role.ADMIN,Role.SUPER_ADMIN)
 export class BookLikesPublicController{
 
   constructor(private readonly service : BookLikesPublicService) {}
+
+  @Get()
+  async getLiked(@Req() request : Request){
+    // @ts-ignore
+    return await this.service.getLikedBooks(request.user.id)
+  }
 
   @Post(':bookId')
   async toggleLike(@Req() request : Request, @Param('bookId',ParseIntPipe) id : number){
