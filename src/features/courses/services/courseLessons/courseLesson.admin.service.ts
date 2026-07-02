@@ -8,59 +8,69 @@ import { CourseLikeRepository as CourseLessonRepository } from '../../repository
 import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Injectable()
-export class CourseLessonAdminService{
-  constructor(private readonly repo: CourseLessonRepository) {}
+export class CourseLessonAdminService {
+  constructor(private readonly repo: CourseLessonRepository) {
+  }
 
-  async create(payload : CourseLessonCreateAdminDto,video : Express.Multer.File){
+  async create(payload: CourseLessonCreateAdminDto, video: Express.Multer.File, thumbnail?: Express.Multer.File) {
     const courseLesson = payload as CourseLesson;
-    if(video){
-      courseLesson.video= video.path
-    }
-    return await this.repo.save(courseLesson)
-  }
-
-  async getAll(filters: PaginationFilters){
-    const courseLesson = await this.repo.getAll(filters)
-    courseLesson.data = plainToInstance(CourseLessonListAdminDto,courseLesson.data,{excludeExtraneousValues : true})
-    return courseLesson
-  }
-
-  async getOne(id : number){
-    const courseLesson = await this.repo.getOneById(id);
-    if(!courseLesson){
-      throw new NotFoundException('courseLesson with given id not found')
+    if (thumbnail) {
+      courseLesson.thumbnail = thumbnail.path;
     }
 
-    return courseLesson
+    if (video) {
+      courseLesson.video = video.path;
+    }
+
+    return await this.repo.save(courseLesson);
   }
 
-  async update(id : number,payload : CourseLessonUpdateAdminDto,video : Express.Multer.File){
+  async getAll(filters: PaginationFilters) {
+    const courseLesson = await this.repo.getAll(filters);
+    courseLesson.data = plainToInstance(CourseLessonListAdminDto, courseLesson.data, { excludeExtraneousValues: true });
+    return courseLesson;
+  }
+
+  async getOne(id: number) {
     const courseLesson = await this.repo.getOneById(id);
-    if(!courseLesson){
-      throw new NotFoundException('courseLesson with given id not found')
+    if (!courseLesson) {
+      throw new NotFoundException('courseLesson with given id not found');
+    }
+
+    return courseLesson;
+  }
+
+  async update(id: number, payload: CourseLessonUpdateAdminDto, video: Express.Multer.File, thumbnail?: Express.Multer.File) {
+    const courseLesson = await this.repo.getOneById(id);
+    if (!courseLesson) {
+      throw new NotFoundException('courseLesson with given id not found');
     }
 
     Object.assign(
       courseLesson,
       Object.fromEntries(
-        Object.entries(payload).filter(([key,value]) => value)
-      )
-    )
+        Object.entries(payload).filter(([key, value]) => value),
+      ),
+    );
 
-    if(video){
-      courseLesson.video= video.path
+    if (video) {
+      courseLesson.video = video.path;
     }
 
-    await this.repo.save(courseLesson)
-    return courseLesson
+    if (thumbnail) {
+      courseLesson.thumbnail = thumbnail.path;
+    }
+
+    await this.repo.save(courseLesson);
+    return courseLesson;
   }
 
-  async delete(id : number){
+  async delete(id: number) {
     const courseLesson = await this.repo.getOneById(id);
-    if(!courseLesson){
-      throw new NotFoundException('courseLesson with given id not found')
+    if (!courseLesson) {
+      throw new NotFoundException('courseLesson with given id not found');
     }
 
-    await this.repo.delete(courseLesson)
+    await this.repo.delete(courseLesson);
   }
 }

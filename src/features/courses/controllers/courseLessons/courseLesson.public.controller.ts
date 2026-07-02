@@ -6,20 +6,20 @@ import { CourseLessonPublicService } from '../../services/courseLessons/courseLe
 import { PaginationFilters } from '../../../common/filters/pagination.filter';
 
 @Controller('public/courseLesson')
-export class CourseLessonPublicController{
+export class CourseLessonPublicController {
 
-  constructor(private service :  CourseLessonPublicService) {
+  constructor(private service: CourseLessonPublicService) {
   }
 
   @Get()
-  @ApiOkResponse({type : () => CourseLessonListPublicDto,isArray:true})
-  async getAll(@Query() filters : PaginationFilters){
-    return await this.service.getAll(filters)
+  @ApiOkResponse({ type: () => CourseLessonListPublicDto, isArray: true })
+  async getAll(@Query() filters: PaginationFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')
-  @ApiOkResponse({type : () => CourseLessonDetailPublicDto})
-  async getOne(@Param('id',ParseIntPipe)id : number){
-    return await this.service.getOne(id)
+  @ApiOkResponse({ type: () => CourseLessonDetailPublicDto })
+  async getOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.service.getOne(id);
   }
 }

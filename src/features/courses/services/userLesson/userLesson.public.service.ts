@@ -1,20 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserLesson } from '../../entities/userLesson.entity';
 import { plainToInstance } from 'class-transformer';
 import { UserLessonListPublicDto } from '../../dtos/userLesson/public/userLesson.list.public.dto';
+import { UserLessonRepository } from '../../repository/userLesson.repository';
+import { UserLessonFilters } from '../../filters/userLesson.filters';
 
 @Injectable()
-export class UserLessonPublicService{
-  async getAll(){
-    const userLesson = await UserLesson.find()
-    return plainToInstance(UserLessonListPublicDto,userLesson,{excludeExtraneousValues: true})
+export class UserLessonPublicService {
+  constructor(private readonly repo: UserLessonRepository) {
   }
-  
-  async getOne(id : number){
-    const userLesson = await UserLesson.findOneBy({ id });
-    if(!userLesson){
-      throw new NotFoundException('userLesson with given id not found')
+
+  async getAll(filters: UserLessonFilters) {
+    const userLesson = await this.repo.getAll(filters);
+    userLesson.data = plainToInstance(UserLessonListPublicDto, userLesson.data, { excludeExtraneousValues: true });
+    return userLesson;
+  }
+
+  async getOne(id: number) {
+    const userLesson = await this.repo.getOneById(id);
+    if (!userLesson) {
+      throw new NotFoundException('userLesson with given id not found');
     }
-    return userLesson
+    return userLesson;
   }
 }

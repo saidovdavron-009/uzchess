@@ -6,6 +6,8 @@ import { configureSwagger } from './config/swagger.config';
 import {NestExpressApplication} from '@nestjs/platform-express';
 import { join } from 'path'
 import morgan from 'morgan';
+import { ConfigService } from '@nestjs/config';
+import { ImageUrlInterceptor } from './core/interceptors/image-url.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -17,6 +19,7 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true
   }));
+  app.useGlobalInterceptors(new ImageUrlInterceptor(app.get(ConfigService)));
   app.use(morgan('dev'))
 
   app.useStaticAssets(join(__dirname,'..','uploads'),{prefix: '/uploads/'})

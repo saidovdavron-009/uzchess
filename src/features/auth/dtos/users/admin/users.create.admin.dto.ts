@@ -1,5 +1,5 @@
 import {Role, LoginType} from "../../../../../core/enum/enum";
-import {IsBoolean, IsDateString, IsEnum, IsOptional, IsString, Max, MaxLength} from "class-validator";
+import { Allow, IsBoolean, IsDateString, IsEnum, IsOptional, IsString, Max, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 

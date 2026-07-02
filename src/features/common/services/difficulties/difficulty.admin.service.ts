@@ -4,7 +4,6 @@ import { DifficultyCreateAdminDto } from '../../dtos/difficulties/admin/difficul
 import { plainToInstance } from 'class-transformer';
 import { DifficultyListAdminDto } from '../../dtos/difficulties/admin/difficulty.list.admin.dto';
 import { DifficultyUpdateAdminDto } from '../../dtos/difficulties/admin/difficulty.update.admin.dto';
-import { ConfigService } from '@nestjs/config';
 import { DifficultyRepository } from '../../repository/difficulty.repository';
 import { PaginationFilters } from '../../filters/pagination.filter';
 
@@ -13,7 +12,6 @@ export class DifficultyAdminService {
 
   constructor(
     private readonly repo: DifficultyRepository,
-    private readonly joi: ConfigService,
   ) {
   }
 
@@ -24,10 +22,6 @@ export class DifficultyAdminService {
 
   async getAll(filters: PaginationFilters) {
     const difficult = await this.repo.getAll(filters);
-
-    for (let difficulty of difficult.data) {
-      difficulty.icon = this.joi.getOrThrow<string>('BASE_URL') + '/' + difficulty.icon;
-    }
     return plainToInstance(DifficultyListAdminDto, difficult, { excludeExtraneousValues: true });
   }
 

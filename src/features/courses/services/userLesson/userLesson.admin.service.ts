@@ -4,50 +4,55 @@ import { UserLesson } from '../../entities/userLesson.entity';
 import { plainToInstance } from 'class-transformer';
 import { UserLessonListAdminDto } from '../../dtos/userLesson/admin/userLesson.list.admin.dto';
 import { UserLessonUpdateAdminDto } from '../../dtos/userLesson/admin/userLesson.update.admin.dto';
+import { UserLessonRepository } from '../../repository/userLesson.repository';
+import { UserLessonFilters } from '../../filters/userLesson.filters';
 
 @Injectable()
-export class UserLessonAdminService{
-  async create(payload : UserLessonCreateAdminDto){
-    const userLesson = UserLesson.create(payload as UserLesson)
-    await UserLesson.save(userLesson)
-    return userLesson
+export class UserLessonAdminService {
+  constructor(private readonly repo: UserLessonRepository) {
   }
 
-  async getAll(){
-    const userLesson = await UserLesson.find()
-    return plainToInstance(UserLessonListAdminDto,userLesson,{excludeExtraneousValues: true})
+  async create(payload: UserLessonCreateAdminDto) {
+    const userLesson = payload as UserLesson;
+    return await this.repo.save(userLesson);
   }
-  
-  async getOne(id : number){
-    const userLesson = await UserLesson.findOneBy({ id });
-    if(!userLesson){
-      throw new NotFoundException('userLesson with given id not found')
+
+  async getAll(filters: UserLessonFilters) {
+    const userLesson = await this.repo.getAll(filters);
+    userLesson.data = plainToInstance(UserLessonListAdminDto, userLesson.data, { excludeExtraneousValues: true });
+    return userLesson;
+  }
+
+  async getOne(id: number) {
+    const userLesson = await this.repo.getOneById(id);
+    if (!userLesson) {
+      throw new NotFoundException('userLesson with given id not found');
     }
-    return userLesson
+    return userLesson;
   }
 
-  async update(id : number,payload : UserLessonUpdateAdminDto){
-    const userLesson = await UserLesson.findOneBy({ id })
-    if(!userLesson){
-      throw new NotFoundException('userLesson with given id not found')
+  async update(id: number, payload: UserLessonUpdateAdminDto) {
+    const userLesson = await this.repo.getOneById(id);
+    if (!userLesson) {
+      throw new NotFoundException('userLesson with given id not found');
     }
 
     Object.assign(
       userLesson,
       Object.fromEntries(
-        Object.entries(payload).filter(([key,value]) => value)
-      )
-    )
+        Object.entries(payload).filter(([key, value]) => value !== undefined),
+      ),
+    );
 
-    await UserLesson.save(userLesson)
-    return userLesson
+    await this.repo.save(userLesson);
+    return userLesson;
   }
 
-  async delete(id : number){
-    const userLesson = await UserLesson.findOneBy({ id });
-    if(!userLesson){
-      throw new NotFoundException('userLesson with given id not found')
+  async delete(id: number) {
+    const userLesson = await this.repo.getOneById(id);
+    if (!userLesson) {
+      throw new NotFoundException('userLesson with given id not found');
     }
-    await UserLesson.remove(userLesson)
+    await this.repo.delete(userLesson);
   }
 }

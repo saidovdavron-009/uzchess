@@ -22,13 +22,13 @@ export class CourseLesson extends BaseModel {
   content?: string
 
   @Column({ length: 128, nullable: true })
-  thumbnail!: string;
+  thumbnail?: string;
 
   @Column({length: 256})
   video!:string
 
   @Column({nullable: true})
-  order!: number
+  order?: number
 
   @Column({type:"timestamp"})
   date!: string

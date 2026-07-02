@@ -1,11 +1,9 @@
-import { Controller, Get, Param, ParseIntPipe, Query, Req, UseFilters } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query, UseFilters } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { CoursePublicService } from '../../services/courses/course.public.service';
 import { CourseListPublicDto } from '../../dtos/courses/public/course.list.public.dto';
 import { CourseDetailPublicDto } from '../../dtos/courses/public/course.detail.public.dto';
 import { GlobalFilters } from '../../../../core/filters/global.filters';
-import type { Request } from 'express';
-import { getFullPath } from '../../../../core/utils/pathHelper';
 import { PaginationFilters } from '../../../common/filters/pagination.filter';
 import { CourseFilters } from '../../filters/course.filters';
 
@@ -18,10 +16,8 @@ export class CoursePublicController {
 
   @Get()
   @ApiOkResponse({ type: () => CourseListPublicDto, isArray: true })
-  async getAll(@Req() req: Request, @Query() filters: CourseFilters) {
-    const result = await this.service.getAll(filters);
-    result.data.forEach((item) => (item.image = getFullPath(req, item.image)));
-    return result;
+  async getAll(@Query() filters: CourseFilters) {
+    return await this.service.getAll(filters);
   }
 
   @Get(':id')

@@ -26,6 +26,10 @@ import { CourseReviewAdminController } from './controllers/courseReviews/courseR
 import { CourseReviewPublicController } from './controllers/courseReviews/courseReviews.public.controller';
 import { CourseLikePublicService } from './services/courseLike/courseLike.public.service';
 import { CourseLikePublicController } from './controllers/courseLikes/courseLike.public.controller';
+import { UserLessonAdminService } from './services/userLesson/userLesson.admin.service';
+import { UserLessonPublicService } from './services/userLesson/userLesson.public.service';
+import { UserLessonAdminController } from './controllers/userLesson/userLesson.admin.controller';
+import { UserLessonPublicController } from './controllers/userLesson/userLesson.public.controller';
 import { CourseCategoryRepository } from './repository/courseCategory.repository';
 import { CourseRepository } from './repository/course.repository';
 import { CourseSectionRepository } from './repository/courseSection.repository';
@@ -33,6 +37,7 @@ import { CourseLikeRepository as CourseLessonRepository } from './repository/cou
 import { CourseLikeRepository } from './repository/courseLike.repository';
 import { CourseReviewsRepository } from './repository/courseReviews.repository';
 import { PurchasedCourseRepository } from './repository/purchasedCourse.repository';
+import { UserLessonRepository } from './repository/userLesson.repository';
 import { CourseCategory } from './entities/courseCategory.entity';
 import { Course } from './entities/course.entity';
 import { CourseSection } from './entities/courseSection.entity';
@@ -40,10 +45,11 @@ import { CourseLesson } from './entities/courseLesson.entity';
 import { CourseLike } from './entities/courseLikes.entity';
 import { CourseReview } from './entities/courseReviews.entity';
 import { PurchasedCourse } from './entities/purchasedCourse.entity';
+import { UserLesson } from './entities/userLesson.entity';
 
 @Module({
   imports : [
-    TypeOrmModule.forFeature([CourseCategory, Course, CourseSection, CourseLesson, CourseLike, CourseReview, PurchasedCourse])
+    TypeOrmModule.forFeature([CourseCategory, Course, CourseSection, CourseLesson, CourseLike, CourseReview, PurchasedCourse, UserLesson])
   ],
   providers : [
     CourseCategoryAdminService,
@@ -66,6 +72,9 @@ import { PurchasedCourse } from './entities/purchasedCourse.entity';
     CourseReviewsRepository,
     CourseLikePublicService,
     CourseLikeRepository,
+    UserLessonAdminService,
+    UserLessonPublicService,
+    UserLessonRepository,
   ],
   controllers : [
     CourseCategoryAdminController,
@@ -80,7 +89,9 @@ import { PurchasedCourse } from './entities/purchasedCourse.entity';
     PurchasedCoursePublicController,
     CourseReviewAdminController,
     CourseReviewPublicController,
-    CourseLikePublicController
+    CourseLikePublicController,
+    UserLessonAdminController,
+    UserLessonPublicController,
   ]
 })
 

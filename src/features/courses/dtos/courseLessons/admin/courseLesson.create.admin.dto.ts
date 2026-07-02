@@ -1,48 +1,54 @@
 import { Allow, IsBoolean, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 
 export class CourseLessonCreateAdminDto {
   @IsNumber()
+  @Type(() => Number)
   @ApiProperty()
-  courseId! : number
+  courseId!: number;
 
   @IsNumber()
+  @Type(() => Number)
   @ApiProperty()
-  difficultyId! : number
+  difficultyId!: number;
 
   @IsNumber()
+  @Type(() => Number)
   @ApiProperty()
-  courseSectionId! : number
+  courseSectionId!: number;
 
   @IsString()
   @ApiProperty()
-  title! : string
+  title!: string;
 
   @IsString()
   @ApiProperty()
   @IsOptional()
-  content? : string
+  content?: string;
 
-  @IsString()
-  @ApiProperty()
-  @IsOptional()
-  thumbnail! : string
-
-  @IsString()
   @Allow()
-  @ApiProperty({type : 'string',format : 'binary'})
-  video! : string
+  @ApiProperty({ type: 'string', format: 'binary' })
+  @IsOptional()
+  thumbnail?: string;
+
+  @Allow()
+  @ApiProperty({ type: 'string', format: 'binary' })
+  video!: string;
 
   @IsNumber()
+  @Type(() => Number)
+  @IsOptional()
   @ApiProperty()
-  order! : number
+  order?: number;
 
   @IsDateString()
   @ApiProperty()
-  date! : string
+  date!: string;
 
   @IsBoolean()
+  @Type(() => Boolean)
   @ApiProperty()
-  isFree! : boolean
+  isFree!: boolean;
 }

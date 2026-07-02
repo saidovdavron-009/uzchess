@@ -4,11 +4,15 @@ import { Expose } from 'class-transformer';
 
 
 export class CourseLessonListPublicDto {
+  @Expose()
+  @ApiProperty()
+  id!: number
+
   @ApiProperty()
   @Expose()
   courseId! : number
 
-  @ApiProperty()
+  @ApiProperty()1
   @Expose()
   courseSectionId! : number
 
